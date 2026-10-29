@@ -263,22 +263,86 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
 .sf-profile-info h3 { margin: 0; font-size: 1.05rem; font-weight: 700; color: #FFFFFF; }
 .sf-profile-info p { margin: 2px 0 0; font-size: 0.78rem; color: #94A3B8; }
 
-/* ---- Login Card ---- */
-.sf-login-box {
-  max-width: 480px;
-  margin: 1.5rem auto 2.5rem;
-  background: linear-gradient(145deg, #141B27 0%, #0D121B 100%);
-  border: 1px solid rgba(255, 43, 68, 0.35);
-  border-radius: 24px;
-  padding: 36px 40px;
-  box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 43, 68, 0.15);
+/* ---- Redesigned Unified Login Screen ---- */
+.login-header-wrap {
   text-align: center;
-  animation: sfFadeUp 0.6s ease both;
+  padding: 10px 0 20px;
+  animation: sfFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-.sf-login-badge {
-  display: inline-block; padding: 4px 14px; border-radius: 999px; font-size: 0.75rem; font-weight: 800;
-  background: rgba(255, 43, 68, 0.18); color: #FF6677; border: 1px solid rgba(255, 43, 68, 0.45);
-  letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px;
+.login-icon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255, 43, 68, 0.18) 0%, rgba(255, 43, 68, 0.04) 100%);
+  border: 1px solid rgba(255, 43, 68, 0.35);
+  box-shadow: 0 10px 28px -4px rgba(255, 43, 68, 0.35);
+  color: #FF3B53;
+  margin-bottom: 14px;
+}
+.login-title {
+  margin: 0 0 6px 0;
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: #FFFFFF;
+}
+.login-subtitle {
+  margin: 0 auto;
+  font-size: 0.92rem;
+  color: #94A3B8;
+  line-height: 1.45;
+}
+.login-system-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  padding: 4px 14px;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: rgba(16, 185, 129, 0.12);
+  color: #6EE7B7;
+  border: 1px solid rgba(16, 185, 129, 0.28);
+}
+.login-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 8px #10B981;
+  animation: sfPulseDot 2s infinite ease-in-out;
+}
+.login-footer-note {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 0.76rem;
+  color: #64748B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.login-footer-note code {
+  color: #94A3B8;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* ---- Form Container Polish ---- */
+div[data-testid="stForm"] {
+  background: linear-gradient(160deg, #131926 0%, #0D121B 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-top: 2px solid #FF2B44 !important;
+  border-radius: 20px !important;
+  padding: 26px 28px !important;
+  box-shadow: 0 20px 48px -12px rgba(0, 0, 0, 0.65), 0 0 1px 1px rgba(255, 255, 255, 0.04) !important;
 }
 
 /* ---- Chips ---- */
@@ -919,36 +983,59 @@ def require_login() -> bool:
         return True
     inject_css()
 
-    st.markdown(
-        """
-        <div class="sf-login-box">
-          <div style="display:flex; justify-content:center; margin-bottom:18px;">
-        """
-        + _logo_html(size_px=68)
-        + """
-          </div>
-          <span class="sf-login-badge">OFFICIAL ACCESS PORTAL</span>
-          <h2 style="margin:0 0 8px 0; font-size:1.75rem; font-weight:800; color:#fff;">Shortfundly Campus</h2>
-          <p style="margin:0 0 24px 0; font-size:0.92rem; color:#94A3B8;">Outreach Automation & Intelligence Platform</p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    st.markdown("<div style='height: clamp(24px, 6vh, 60px);'></div>", unsafe_allow_html=True)
 
-    with st.form("login_form"):
-        in_user = st.text_input("Username", placeholder="e.g. admin")
-        in_secret = st.text_input("Password", type="password", placeholder="••••••••")
-        submitted = st.form_submit_button("Sign in to Dashboard", use_container_width=True, type="primary")
+    _, center_col, _ = st.columns([1, 1.25, 1])
+    with center_col:
+        st.markdown(
+            """
+            <div class="login-header-wrap">
+              <div class="login-icon-badge">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 17a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9.5C2 7 4 5 6.5 5H17.5C20 5 22 7 22 9.5V17Z"></path>
+                  <polyline points="22,7 12,13 2,7"></polyline>
+                </svg>
+              </div>
+              <h1 class="login-title">Campus Outreach Engine</h1>
+              <p class="login-subtitle">Email Automation & Intelligence Platform</p>
+              <div>
+                <span class="login-system-pill">
+                  <span class="login-dot"></span> System Ready · Kerala Region
+                </span>
+              </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
-    if submitted:
-        exp_user, exp_secret = _admin_credentials()
-        if in_user.strip() == exp_user and in_secret.strip() == exp_secret:
-            st.session_state["_authenticated"] = True
-            st.rerun()
-        else:
-            st.error("Invalid administrator username or password.")
+        with st.form("login_form"):
+            st.markdown(
+                "<div style='margin-bottom:14px; font-size:0.86rem; font-weight:600; color:#E2E8F0;'>"
+                "Sign In with Administrator Credentials</div>",
+                unsafe_allow_html=True,
+            )
+            in_user = st.text_input("Username", placeholder="Enter administrator username")
+            in_secret = st.text_input("Password", type="password", placeholder="••••••••••••")
+            st.markdown("<div style='height: 8px;'></div>", unsafe_allow_html=True)
+            submitted = st.form_submit_button("Sign In to Platform", use_container_width=True, type="primary")
 
-    st.caption("🔒 Secure admin session · Configured in `.env` (ADMIN_USERNAME / ADMIN_PASSWORD)")
+        if submitted:
+            exp_user, exp_secret = _admin_credentials()
+            if in_user.strip() == exp_user and in_secret.strip() == exp_secret:
+                st.session_state["_authenticated"] = True
+                st.rerun()
+            else:
+                st.error("Invalid administrator username or password.")
+
+        st.markdown(
+            """
+            <div class="login-footer-note">
+              <span>🔒 Encrypted Admin Session · Configured in <code>.env</code></span>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
     return False
 
 

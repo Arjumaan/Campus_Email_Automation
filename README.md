@@ -1,4 +1,4 @@
-# Shortfundly Campus Email Automation (Phase 2 — Final)
+# Campus Outreach Email Automation
 
 A Streamlit **admin dashboard** for collecting official college contacts, editing a proposal
 email template, sending personalised emails over SMTP, and tracking every message in SQLite.
@@ -31,7 +31,7 @@ address you control, whatever recipients you select. Real sending needs `SEND_MO
 
 ```
 app.py                       Streamlit dashboard: login + Dashboard, Contacts, Templates, Send, History
-logo.jpg                     Shortfundly logo shown in the dashboard banner
+logo.jpg                     Platform brand emblem shown in the dashboard banner
 .streamlit/config.toml       UI theme (cosmetic only; safe to edit/delete)
 .env.example                 Template for your private .env (copy it to .env)
 requirements.txt             Python dependencies
@@ -132,7 +132,7 @@ SMTP_SECURITY=starttls
 SMTP_USERNAME=your-address@gmail.com
 SMTP_PASSWORD=your-16-char-gmail-app-password
 SMTP_FROM_EMAIL=your-address@gmail.com
-SMTP_FROM_NAME=Shortfundly Campus
+SMTP_FROM_NAME=Campus Outreach
 SEND_MODE=test
 TEST_RECIPIENT=your-own-inbox@example.com
 SENDER_NAME=Your Name
@@ -165,11 +165,11 @@ ADMIN_PASSWORD=admin@123
 
 ## Part B — Running for OFFICIAL / company use
 
-Use this only when you are ready to email **real colleges** on behalf of Shortfundly. Most of the
+Use this only when you are ready to email **real colleges** on behalf of the institution. Most of the
 work here is **configuration and domain setup**, not code changes.
 
 ### B1. Use an official company mailbox (not a personal Gmail)
-Point SMTP at Shortfundly's own domain mailbox via Google Workspace, Microsoft 365, or an email
+Point SMTP at your official domain mailbox via Google Workspace, Microsoft 365, or an email
 service such as Amazon SES / SendGrid:
 
 ```
@@ -178,8 +178,8 @@ SMTP_PORT=587
 SMTP_SECURITY=starttls
 SMTP_USERNAME=<company smtp username>
 SMTP_PASSWORD=<company smtp credential / app password>
-SMTP_FROM_EMAIL=campus@shortfundly.com   # an address on the company domain
-SMTP_FROM_NAME=Shortfundly Campus
+SMTP_FROM_EMAIL=outreach@yourdomain.com   # an address on the company domain
+SMTP_FROM_NAME=Campus Outreach
 SENDER_NAME=<real representative name>
 SENDER_TITLE=<real representative title>
 SEND_MODE=live

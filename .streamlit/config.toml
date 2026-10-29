@@ -1,9 +1,9 @@
-# Streamlit theme for the Shortfundly Campus Email Automation admin panel.
-# Modern Executive Dark Tech theme (Obsidian & Crimson Ruby)
+# Streamlit theme for the Campus Outreach Email Automation admin panel.
+# Modern Executive Dark Tech theme (Obsidian & Electric Blue)
 [theme]
-primaryColor = "#FF2B44"              # Shortfundly signature crimson ruby
+primaryColor = "#2563EB"              # Executive Electric Blue (Royal / Cobalt)
 backgroundColor = "#0B0E14"           # Deep obsidian slate
-secondaryBackgroundColor = "#141A24"   # Sleek elevated card surface
+secondaryBackgroundColor = "#131B2A"   # Sleek elevated card surface with midnight blue tint
 textColor = "#F3F4F6"                 # Crisp high-contrast text
 font = "sans serif"
 

@@ -186,7 +186,8 @@ def upsert_college(
             "SELECT id FROM colleges WHERE website_host = ?", (website_host,)
         ).fetchone()
         if row:
-            return int(row["id"]), False
+            cid = row["id"] if hasattr(row, "keys") else row[0]
+            return int(cid), False
     try:
         cur = conn.execute(
             "INSERT INTO colleges (name, institution_type, state, city, website, "
@@ -203,7 +204,8 @@ def upsert_college(
             "SELECT id FROM colleges WHERE website_host = ?", (website_host,)
         ).fetchone()
         if row:
-            return int(row["id"]), False
+            cid = row["id"] if hasattr(row, "keys") else row[0]
+            return int(cid), False
         raise
 
 

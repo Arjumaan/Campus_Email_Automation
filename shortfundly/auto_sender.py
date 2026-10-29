@@ -38,7 +38,7 @@ def _load_default_template(conn: sqlite3.Connection) -> tuple[str, str]:
         body = (base / "default_email_body.txt").read_text(encoding="utf-8").strip()
         return subject, body
     except FileNotFoundError:
-        return "Shortfundly Campus Partnership Proposal", ""
+        return "Campus Outreach Partnership Proposal", ""
 
 
 def _get_new_approved_contacts(conn: sqlite3.Connection, campaign: str) -> list[dict]:
@@ -119,7 +119,7 @@ def auto_send_new_contacts(
     from .mailer import SMTPMailer
 
     sender = {
-        "sender_name": cfg.sender_name or "Shortfundly Campus",
+        "sender_name": cfg.sender_name or "Campus Outreach",
         "sender_title": cfg.sender_title or "Campus Outreach",
     }
 

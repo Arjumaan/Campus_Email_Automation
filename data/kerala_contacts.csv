@@ -1,46 +1,55 @@
-state,city,college_name,website,contact_person,department,email,source_url
-Kerala,Bengaluru,Don Bosco Institute of Technology,https://www.dbit.co.in,,Admissions,admissions@dbit.co.in,https://www.dbit.co.in/apply-online/
-Kerala,Bengaluru,Nitte Meenakshi Institute of Technology,https://www.nmit.ac.in,,Admissions,admissions@nmit.ac.in,https://www.nmit.ac.in/contact-nmit.php
-Kerala,Bengaluru,Nitte Meenakshi Institute of Technology,https://www.nmit.ac.in,,Principal,principal@nmit.ac.in,https://www.nmit.ac.in/contact-nmit.php
-Kerala,Bengaluru,Nitte Meenakshi Institute of Technology,https://www.nmit.ac.in,,Placements,placement@nmit.ac.in,https://www.nmit.ac.in/contact-nmit.php
-Kerala,Bengaluru,Sri Sairam College of Engineering,https://sairamce.edu.in,,Admissions,admissions@sairamce.edu.in,https://sairamce.edu.in/contact-us/
-Kerala,Bengaluru,Sri Sairam College of Engineering,https://sairamce.edu.in,,General Enquiries,info@sairamce.edu.in,https://sairamce.edu.in/contact-us/
-Kerala,Bengaluru,Sri Sairam College of Engineering,https://sairamce.edu.in,,Placements,placement@sairamce.edu.in,https://sairamce.edu.in/contact-us/
-Kerala,Bengaluru,Sri Sairam College of Engineering,https://sairamce.edu.in,,Computer Science,hod.cs@sairamce.edu.in,https://sairamce.edu.in/contact-us/
-Kerala,Bengaluru,Sri Sairam College of Engineering,https://sairamce.edu.in,,Principal,principal@sairamce.edu.in,https://sairamce.edu.in/contact-us/
-Kerala,Mangaluru,St Joseph Engineering College,https://sjec.ac.in,,Admissions,admissions@sjec.ac.in,https://sjec.ac.in/contact
-Kerala,Mangaluru,St Joseph Engineering College,https://sjec.ac.in,,College Office,office@sjec.ac.in,https://sjec.ac.in/contact
-Kerala,Mangaluru,St Joseph Engineering College,https://sjec.ac.in,Dr. Rio D'Souza,Principal,principal@sjec.ac.in,https://sjec.ac.in/contact
-Kerala,Mangaluru,St Joseph Engineering College,https://sjec.ac.in,,Director's Office,sjec@sjec.ac.in,https://sjec.ac.in/contact
-Kerala,Bengaluru,Ramaiah University of Applied Sciences,https://www.msruas.ac.in,,Admissions,admissions@msruas.ac.in,https://www.msruas.ac.in/school/ramaiah-university-college-of-engineering/contact-us
-Kerala,Bengaluru,Ramaiah University of Applied Sciences,https://www.msruas.ac.in,,Registrar's Office,office.reg@msruas.ac.in,https://www.msruas.ac.in/school/ramaiah-university-college-of-engineering/contact-us
-Kerala,Bengaluru,Amrita School of Engineering Bengaluru,https://www.amrita.edu,,Admissions,btech@amrita.edu,https://www.amrita.edu/admissions/engineering/
-Kerala,Bengaluru,Krupanidhi Institute of Technology,https://engineering.krupanidhi.edu.in,,Admissions,admissions@krupanidhi.edu.in,https://engineering.krupanidhi.edu.in/contact
-Kerala,Devanahalli,Chanakya University,https://chanakyauniversity.edu.in,Thanushree,Admissions,admissions@chanakyauniversity.edu.in,https://chanakyauniversity.edu.in/schools/school-of-engineering/contact-us/
-Kerala,Devanahalli,Chanakya University,https://chanakyauniversity.edu.in,Sri Gautam,Registrar,registrar-office@chanakyauniversity.edu.in,https://chanakyauniversity.edu.in/schools/school-of-engineering/contact-us/
-Kerala,Hubballi,KLE Technological University,https://www.kletech.ac.in,,General Enquiries,info@kletech.ac.in,https://www.kletech.ac.in/
-Kerala,Bengaluru,Dayananda Sagar Academy of Technology and Management,https://www.dsatm.edu.in,,Admissions,admission@dsatm.edu.in,https://mail.dsatm.edu.in/contact-us
-Kerala,Bengaluru,Dayananda Sagar Academy of Technology and Management,https://www.dsatm.edu.in,,Placements,placements@dsatm.edu.in,https://mail.dsatm.edu.in/contact-us
-Kerala,Bengaluru,Dayananda Sagar Academy of Technology and Management,https://www.dsatm.edu.in,,Principal,principal@dsatm.edu.in,https://mail.dsatm.edu.in/contact-us
-Kerala,Bengaluru,Dayananda Sagar Academy of Technology and Management,https://www.dsatm.edu.in,,Artificial Intelligence and Machine Learning,hodaiml@dsatm.edu.in,https://mail.dsatm.edu.in/contact-us
-Kerala,Bengaluru,Dayananda Sagar Academy of Technology and Management,https://www.dsatm.edu.in,,Computer Science and Engineering,hodcse@dsatm.edu.in,https://mail.dsatm.edu.in/contact-us
-Kerala,Bengaluru,Alliance University,https://www.alliance.edu.in,,Student Support Services,student.services@alliance.edu.in,https://www.alliance.edu.in/clubs-societies/filmmaking-club/
-Kerala,Bengaluru,CHRIST (Deemed to be University),https://www.christuniversity.in,,General Enquiries,mail@christuniversity.in,https://christuniversity.in/film-club
-Kerala,Bengaluru,"CHRIST (Deemed to be University), Bannerghatta Road Campus",https://www.christuniversity.in,,Admissions / Campus Contact,admissions.bgr@christuniversity.in,https://brc.christuniversity.in/department-activities/MEDIA-STUDIES/NTczNA%3D%3D
-Kerala,Bengaluru,CMR University,https://www.cmr.edu.in,Dr. Sreenidhi KR,Office of Student Affairs,director.osa@cmr.edu.in,https://cmr.edu.in/office-of-student-affairs-osa/
-Kerala,Bengaluru,CMR University,https://www.cmr.edu.in,Parinitha Shetty,Office of Student Affairs,osa.lakeside@cmr.edu.in,https://cmr.edu.in/office-of-student-affairs-osa/
-Kerala,Bengaluru,CMR University,https://www.cmr.edu.in,,Office of Student Affairs,osa@cmr.edu.in,https://cmr.edu.in/office-of-student-affairs-osa/
-Kerala,Davanagere,GM University,https://gmu.ac.in,Dr. Kiran Kumar,Student Affairs,director.sa@gmu.ac.in,https://gmu.ac.in/contact
-Kerala,Davanagere,GM University,https://gmu.ac.in,Dr. Veeragangadhara Swamy,Marketing and Promotion,dean.mp@gmu.ac.in,https://gmu.ac.in/contact
-Kerala,Davanagere,GM University,https://gmu.ac.in,Dr. Sunil Kumar B S,Registrar,registrar@gmu.ac.in,https://gmu.ac.in/contact
-Kerala,Davanagere,GM University,https://gmu.ac.in,Mrs. Nandini B A,Admissions / Academic Registration,nandini.aro@gmu.ac.in,https://gmu.ac.in/contact
-Kerala,Bengaluru,Seshadripuram First Grade College,https://www.sfgc.ac.in,,General Enquiries,info@sfgc.ac.in,https://www.sfgc.ac.in/other-activities
-Kerala,Bengaluru,Dayananda Sagar Academy of Technology and Management,https://www.dsatm.edu.in,,Information Science and Engineering,hodise@dsatm.edu.in,https://mail.dsatm.edu.in/contact-us
-Kerala,Bengaluru,Dayananda Sagar Academy of Technology and Management,https://www.dsatm.edu.in,,Computer Science and Design,hod-csd@dsatm.edu.in,https://mail.dsatm.edu.in/contact-us
-Kerala,Bengaluru,Dayananda Sagar Academy of Technology and Management,https://www.dsatm.edu.in,,CSE - Cybersecurity / Blockchain / IoT,hod-cscib@dsatm.edu.in,https://mail.dsatm.edu.in/contact-us
-Kerala,Bengaluru,Dayananda Sagar Academy of Technology and Management,https://www.dsatm.edu.in,,Electronics and Communication Engineering,hodec@dsatm.edu.in,https://mail.dsatm.edu.in/contact-us
-Kerala,Bengaluru,"M.S. Ramaiah College of Arts, Science and Commerce",https://www.msrcasc.edu.in,,Admissions,admission@msrcasc.edu.in,https://www.msrcasc.edu.in/fd-fest-and-club-activities
-Kerala,Bengaluru,Mount Carmel College (Autonomous),https://mccblr.edu.in,,Admissions,admission@mccblr.edu.in,https://mccblr.edu.in/wp-content/uploads/2026/02/Prospectus-26.pdf
-Kerala,Bengaluru,St Claret College,https://claretcollege.edu.in,,General Enquiries,scc@claretcollege.edu.in,https://mail.claretcollege.edu.in/SCC_Media
-Kerala,Bengaluru,St. Joseph's College of Commerce,https://www.sjcc.edu.in,,IQAC / Events,iqac.events@sjcc.edu.in,https://www.sjcc.edu.in/pdf/IQACNationalSeminar25.pdf
-Kerala,Mangaluru,Nitte Institute of Communication (NICO),https://nitte.edu.in/nico/,,General Enquiries,nico@nitte.edu.in,https://nitte.edu.in/nico/
+﻿state,city,college_name,website,contact_person,department,email,source_url
+Kerala,Kozhikode,Indian Institute of Management Kozhikode (IIMK),https://www.iimk.ac.in,Prof. Debashis Chatterjee,Director's Office,director@iimk.ac.in,https://www.iimk.ac.in/contact-us
+Kerala,Kozhikode,Indian Institute of Management Kozhikode (IIMK),https://www.iimk.ac.in,Admissions Office,Admissions,admissions@iimk.ac.in,https://www.iimk.ac.in/contact-us
+Kerala,Calicut,National Institute of Technology Calicut (NITC),http://www.nitc.ac.in,Prof. Prasad Krishna,Director's Office,director@nitc.ac.in,http://www.nitc.ac.in/contact-us
+Kerala,Calicut,National Institute of Technology Calicut (NITC),http://www.nitc.ac.in,Dean (Academic),Academics,dean_acad@nitc.ac.in,http://www.nitc.ac.in/contact-us
+Kerala,Palakkad,Indian Institute of Technology Palakkad (IITPKD),http://iitpkd.ac.in,Director's Secretariat,Administration,director@iitpkd.ac.in,http://iitpkd.ac.in/contact-us
+Kerala,Palakkad,Indian Institute of Technology Palakkad (IITPKD),http://iitpkd.ac.in,Academic Section,Academics & Admissions,academic@iitpkd.ac.in,http://iitpkd.ac.in/contact-us
+Kerala,Kottayam,Indian Institute of Information Technology Kottayam (IIITK),http://www.iiitkottayam.ac.in,Registrar,Registrar's Office,registrar@iiitkottayam.ac.in,http://www.iiitkottayam.ac.in/#!/contact
+Kerala,Kochi,Cochin University of Science and Technology (CUSAT),http://www.cusat.ac.in,Registrar,Administration,registrar@cusat.ac.in,http://www.cusat.ac.in/contact
+Kerala,Kochi,Cochin University of Science and Technology (CUSAT),http://www.cusat.ac.in,IRAA Admissions,Admissions,admissions@cusat.ac.in,http://www.cusat.ac.in/contact
+Kerala,Thiruvananthapuram,University of Kerala,http://www.keralauniversity.ac.in,Registrar,Central Administration,registrar@keralauniversity.ac.in,http://www.keralauniversity.ac.in/contact
+Kerala,Kottayam,Mahatma Gandhi University (MGU),https://www.mgu.ac.in,Registrar,University Secretariat,registrar@mgu.ac.in,https://www.mgu.ac.in/contact-us/
+Kerala,Kannur,Kannur University,http://www.kannuruniversity.ac.in,Registrar,Administration,registrar@kannuruniversity.ac.in,http://www.kannuruniversity.ac.in/en/contact-us/
+Kerala,Kasaragod,Central University of Kerala (CUK),http://www.cukerala.ac.in,Registrar,Administration,registrar@cukerala.ac.in,http://www.cukerala.ac.in/contact-us/
+Kerala,Thiruvananthapuram,College of Engineering Trivandrum (CET),http://www.cet.ac.in,Dr. V. Suresh Babu,Principal's Office,principal@cet.ac.in,http://www.cet.ac.in/contact/
+Kerala,Thiruvananthapuram,College of Engineering Trivandrum (CET),http://www.cet.ac.in,Career Guidance & Placement Cell,Placements,placement@cet.ac.in,http://www.cet.ac.in/placement/
+Kerala,Thrissur,Government Engineering College Thrissur (GECT),https://gectcr.ac.in,Dr. K. Ranjith,Principal's Office,principal@gectcr.ac.in,https://gectcr.ac.in/contact-us/
+Kerala,Kollam,TKM College of Engineering (TKMCE),http://tkmce.ac.in,Dr. S. Ayoob,Principal's Office,principal@tkmce.ac.in,http://tkmce.ac.in/contact/
+Kerala,Kollam,TKM College of Engineering (TKMCE),http://tkmce.ac.in,General Enquiries,Admissions & Enquiries,info@tkmce.ac.in,http://tkmce.ac.in/contact/
+Kerala,Kochi,Govt. Model Engineering College (MEC) Thrikkakara,http://www.mec.ac.in,Principal,Administration,principal@mec.ac.in,http://www.mec.ac.in/contact
+Kerala,Kochi,Govt. Model Engineering College (MEC) Thrikkakara,http://www.mec.ac.in,Placement Cell,Placements,pc@mec.ac.in,http://www.mec.ac.in/placement
+Kerala,Kothamangalam,Mar Athanasius College of Engineering (MACE),http://mace.ac.in,Dr. Bos Mathew Jos,Principal's Office,principal@mace.ac.in,http://mace.ac.in/contact.php
+Kerala,Palakkad,NSS College of Engineering (NSSCE),https://www.nssce.ac.in,Dr. P. R. Sreemahadevan Pillai,Principal's Office,principal@nssce.ac.in,https://www.nssce.ac.in/contact
+Kerala,Kannur,Government College of Engineering Kannur (GCEK),http://www.gcek.ac.in,Principal,College Office,principal@gcek.ac.in,http://www.gcek.ac.in/contact
+Kerala,Kottayam,Rajiv Gandhi Institute of Technology (RIT),http://www.rit.ac.in,Principal,Principal's Office,principal@rit.ac.in,http://www.rit.ac.in/contact/
+Kerala,Kochi,Rajagiri School of Engineering & Technology (RSET),https://www.rajagiritech.ac.in,Principal,Admissions & Principal,office@rajagiritech.edu.in,https://www.rajagiritech.ac.in/Home/Contact.asp
+Kerala,Ernakulam,Federal Institute of Science and Technology (FISAT),http://www.fisat.ac.in,Dr. Jacob Thomas,Principal's Office,principal@fisat.ac.in,http://www.fisat.ac.in/contact/
+Kerala,Ernakulam,Federal Institute of Science and Technology (FISAT),http://www.fisat.ac.in,Central Admissions,Admissions,mail@fisat.ac.in,http://www.fisat.ac.in/contact/
+Kerala,Thiruvananthapuram,Government Engineering College Barton Hill (GECBH),http://www.gecbh.ac.in,Principal,Office of the Principal,principal@gecbh.ac.in,http://www.gecbh.ac.in/contact
+Kerala,Alappuzha,College of Engineering Chengannur (CEC),http://www.ceconline.edu,Principal,Administration,principal@ceconline.edu,http://www.ceconline.edu/contact-us/
+Kerala,Kochi,Rajagiri College of Social Sciences (RCSS),http://rcss.rajagiri.edu,Rev. Dr. Saju M. D.,Executive Director / Principal,admin@rajagiri.edu,http://rcss.rajagiri.edu/contact-us
+Kerala,Kochi,Rajagiri College of Social Sciences (RCSS),http://rcss.rajagiri.edu,Admissions Cell,Admissions,rcssadmission@rajagiri.edu,http://rcss.rajagiri.edu/contact-us
+Kerala,Ernakulam,Sacred Heart College (SHC) Thevara,http://www.shcollege.ac.in,Rev. Dr. Jose John,Principal's Office,principal@shcollege.ac.in,http://www.shcollege.ac.in/contact/
+Kerala,Ernakulam,Sacred Heart College (SHC) Thevara,http://www.shcollege.ac.in,College Office,General Administration,office@shcollege.ac.in,http://www.shcollege.ac.in/contact/
+Kerala,Ernakulam,St. Teresa's College (Autonomous),https://teresas.ac.in,Dr. Alphonsa Vijaya Joseph,Principal's Office,principal@teresas.ac.in,https://teresas.ac.in/contact/
+Kerala,Ernakulam,St. Teresa's College (Autonomous),https://teresas.ac.in,Administrative Office,General Office,office@teresas.ac.in,https://teresas.ac.in/contact/
+Kerala,Thrissur,St. Thomas' College (Autonomous),http://stthomas.ac.in,Dr. Martin K. A.,Principal's Office,principal@stthomas.ac.in,http://stthomas.ac.in/contact-us/
+Kerala,Thrissur,St. Thomas' College (Autonomous),http://stthomas.ac.in,Office Administration,General Office,office@stthomas.ac.in,http://stthomas.ac.in/contact-us/
+Kerala,Thiruvananthapuram,Mar Ivanios College (Autonomous),http://www.marivanioscollege.ac.in,Prof. Dr. Georgee K. I.,Principal,principal@marivanioscollege.ac.in,http://www.marivanioscollege.ac.in/contact
+Kerala,Calicut,St. Joseph's College Devagiri,http://www.devagiricollege.org,Dr. Boby Jose,Principal's Office,principal@devagiricollege.org,http://www.devagiricollege.org/contact
+Kerala,Kottayam,St. Berchmans College (SBC) Changanassery,http://sbcollege.ac.in,Rev. Fr. Reji P. Kurian,Principal's Office,principal@sbcollege.ac.in,http://sbcollege.ac.in/contact-us/
+Kerala,Kottayam,CMS College Kottayam,http://cmscollege.ac.in,Dr. Varghese C. Joshua,Principal's Office,principal@cmscollege.ac.in,http://cmscollege.ac.in/contact/
+Kerala,Kozhikode,Farook College (Autonomous),https://www.farookcollege.ac.in,Dr. K. A. Aysha Swapna,Principal,principal@farookcollege.ac.in,https://www.farookcollege.ac.in/contact
+Kerala,Ernakulam,Maharaja's College Ernakulam,https://www.maharajas.ac.in,Principal,College Administration,principal@maharajas.ac.in,https://www.maharajas.ac.in/contact
+Kerala,Thrissur,Vimala College (Autonomous),https://vimalacollege.edu.in,Dr. Sr. Beena Jose,Principal,principal@vimalacollege.edu.in,https://vimalacollege.edu.in/contact
+Kerala,Thiruvananthapuram,Government College for Women Thiruvananthapuram,http://gcwtrivandrum.com,Principal,Office of the Principal,principal@gcwtrivandrum.com,http://gcwtrivandrum.com/contact
+Kerala,Thrissur,Christ College Irinjalakuda,http://christcollegeijk.edu.in,Fr. Dr. Jolly Andrews,Principal,principal@christcollegeijk.edu.in,http://christcollegeijk.edu.in/contact
+Kerala,Kozhikode,Government Medical College Kozhikode,https://www.govtmedicalcollegekozhikode.ac.in,Dr. N. Roy,Principal,principal@govtmedicalcollegekozhikode.ac.in,https://www.govtmedicalcollegekozhikode.ac.in/contact
+Kerala,Thiruvananthapuram,Government Medical College Thiruvananthapuram,http://www.tmc.kerala.gov.in,Principal,College Office,principal@tmc.kerala.gov.in,http://www.tmc.kerala.gov.in/contact
+Kerala,Kottayam,Government Medical College Kottayam,https://kottayammedicalcollege.org,Principal,Principal's Office,principal@kottayammedicalcollege.org,https://kottayammedicalcollege.org/contact/
+Kerala,Alappuzha,T.D. Medical College (TDMC) Alappuzha,https://tdmcalappuzha.org,Principal,Administration,principal@tdmcalappuzha.org,https://tdmcalappuzha.org/contact
+Kerala,Thrissur,Government Medical College Thrissur,https://gmctcr.kerala.gov.in,Principal,Principal's Office,principal@gmctcr.kerala.gov.in,https://gmctcr.kerala.gov.in/contact
+Kerala,Ernakulam,National University of Advanced Legal Studies (NUALS),http://www.nuals.ac.in,Registrar,Registrar's Secretariat,registrar@nuals.ac.in,http://www.nuals.ac.in/contact
+Kerala,Thiruvananthapuram,Government Law College Thiruvananthapuram,http://glctvpm.com,Principal,College Office,principal@glctvpm.com,http://glctvpm.com/contact-us/
+Kerala,Kochi,Government Law College Ernakulam,http://www.glcekm.com,Principal,Principal's Office,principal@glcekm.com,http://www.glcekm.com/contact

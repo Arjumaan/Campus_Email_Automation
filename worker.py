@@ -233,7 +233,7 @@ def run_scheduler(interval_name: str, dry_run: bool = False) -> None:
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(
-        description="Shortfundly fully-automated monitoring + email worker"
+        description="Campus Outreach fully-automated monitoring + email worker"
     )
     parser.add_argument("--once", action="store_true", help="Run a single pipeline pass and exit")
     parser.add_argument(

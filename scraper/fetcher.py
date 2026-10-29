@@ -34,7 +34,7 @@ class Fetcher:
     Parameters mirror the Config fields so you can build one with:
         Fetcher.from_config(cfg)
     """
-    user_agent: str = "ShortfundlyCampusBot/1.0"
+    user_agent: str = "CampusOutreachBot/1.0"
     timeout: int = 20
     retry_count: int = 3
     per_domain_delay: float = 2.0

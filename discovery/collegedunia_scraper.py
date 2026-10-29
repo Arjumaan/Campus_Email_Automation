@@ -196,6 +196,48 @@ def _slug_to_name(slug: str) -> str:
     return slug.replace("-", " ").title()
 
 
+# Major Kerala cities and educational hubs for location inference
+KERALA_CITIES = [
+    "Kozhikode", "Calicut", "Kochi", "Cochin", "Thiruvananthapuram", "Trivandrum",
+    "Ernakulam", "Thrissur", "Trichur", "Kottayam", "Kollam", "Quilon", "Palakkad",
+    "Palghat", "Malappuram", "Kannur", "Cannanore", "Alappuzha", "Alleppey", "Kasaragod",
+    "Pathanamthitta", "Wayanad", "Idukki", "Kalamassery", "Kovalam", "Kanjirappally",
+    "Manjeri", "Thalassery", "Ponnani", "Cherthala", "Kayamkulam", "Thiruvalla", "Pala",
+    "Mavelikara", "Angamaly", "Perumbavoor", "Irinjalakuda", "Varkala",
+]
+
+
+def _extract_city(name: str, address: dict, street: str) -> str:
+    """Extract or infer city name from structured address, college name, or street."""
+    # 1. addressLocality
+    loc = (address.get("addressLocality") or "").strip()
+    if loc and loc.lower() not in ("kerala", "india", "in"):
+        return loc
+
+    # 2. Check suffix after comma in college name (e.g., "... [NITC], Calicut")
+    if "," in name:
+        candidate = name.split(",")[-1].strip()
+        candidate = re.sub(r"\s+(Kerala|India)$", "", candidate, flags=re.I).strip()
+        if candidate and len(candidate) < 35:
+            for c in KERALA_CITIES:
+                if c.lower() in candidate.lower():
+                    return c
+            return candidate
+
+    # 3. Check for city in name
+    for c in KERALA_CITIES:
+        if re.search(r"\b" + re.escape(c) + r"\b", name, re.I):
+            return c
+
+    # 4. Check for city in street address
+    if street:
+        for c in KERALA_CITIES:
+            if re.search(r"\b" + re.escape(c) + r"\b", street, re.I):
+                return c
+
+    return ""
+
+
 def _extract_college_info(college_url: str, html: str, default_state: str = "Kerala") -> dict:
     """Extract official website, city, state and institution type from a college page."""
     result = {
@@ -215,22 +257,32 @@ def _extract_college_info(college_url: str, html: str, default_state: str = "Ker
     # Try JSON-LD first (most reliable)
     for block in _extract_json_ld(html):
         btype = block.get("@type", "")
+        bname = (block.get("name") or "").strip()
+        burl = str(block.get("url") or "")
+
+        # Skip Collegedunia's own corporate organization block
+        if "collegedunia" in bname.lower() or "collegedunia" in burl.lower():
+            continue
 
         if btype in ("CollegeOrUniversity", "EducationalOrganization", "Organization", "University"):
-            name = block.get("name", "")
-            if name:
-                result["name"] = name
+            if bname:
+                result["name"] = bname
             website = block.get("url", "") or block.get("sameAs", "")
             if isinstance(website, list):
-                website = next((u for u in website if "collegedunia" not in u), "")
+                website = next((u for u in website if "collegedunia" not in str(u)), "")
             if website and "collegedunia" not in str(website):
                 result["website"] = str(website).strip()
             address = block.get("address", {})
             if isinstance(address, dict):
-                result["city"] = address.get("addressLocality", "")
                 region = address.get("addressRegion", "").strip()
-                if region:
+                if region and region.lower() not in ("india", "in"):
                     result["state"] = region
+                street = address.get("streetAddress", "")
+                result["city"] = _extract_city(result["name"], address, street)
+
+    # If city is still blank, infer from college name
+    if not result["city"] and result["name"]:
+        result["city"] = _extract_city(result["name"], {}, "")
 
     # If no website found from JSON-LD, try canonical link tag
     if not result["website"]:
@@ -265,17 +317,21 @@ def _extract_college_info(college_url: str, html: str, default_state: str = "Ker
 
 def _extract_name_from_html(html: str, fallback: str) -> str:
     """Try to get the clean college name from og:title or page title."""
+    # If fallback is already a clean college name from JSON-LD, keep it!
+    if fallback and not any(k in fallback for k in ["Fees", "Admission", "Review", "Cutoff", "Placement", "202"]):
+        return fallback
+
     m = re.search(r'<meta[^>]+property=["\']og:title["\'][^>]+content=["\']([^"\']+)["\']', html, re.IGNORECASE)
     if m:
         title = m.group(1).strip()
-        title = re.split(r"\s*[:\-|]\s*(Collegedunia|Fees|Admission|Review|Courses|Cutoff|Ranking)", title, flags=re.IGNORECASE)[0].strip()
+        title = re.split(r"\s*[:\-|]\s*(Collegedunia|Fees|Admission|Review|Courses|Cutoff|Ranking|Placement)", title, flags=re.IGNORECASE)[0].strip()
         if title and len(title) > 3:
             return title
 
     m2 = re.search(r"<title>(.*?)</title>", html, re.IGNORECASE | re.DOTALL)
     if m2:
         title = m2.group(1).strip()
-        title = re.split(r"\s*[:\-|]\s*(Collegedunia|Fees|Admission|Review|Courses|Cutoff|Ranking)", title, flags=re.IGNORECASE)[0].strip()
+        title = re.split(r"\s*[:\-|]\s*(Collegedunia|Fees|Admission|Review|Courses|Cutoff|Ranking|Placement)", title, flags=re.IGNORECASE)[0].strip()
         if title and len(title) > 3:
             return title
 
@@ -297,11 +353,94 @@ def _find_official_website_in_html(html: str) -> str:
     return ""
 
 
+# Major stream categories available on CollegeDunia
+STREAM_CATEGORIES = [
+    "engineering",
+    "management",
+    "medical",
+    "science",
+    "commerce",
+    "arts",
+    "law",
+    "pharmacy",
+    "architecture",
+    "dental",
+    "agriculture",
+    "education",
+    "hotel-management",
+    "paramedical",
+    "computer-applications",
+    "design",
+]
+
+# Kerala district listing slugs on CollegeDunia
+KERALA_DISTRICT_SLUGS = [
+    "kochi",
+    "thiruvananthapuram",
+    "kozhikode",
+    "kottayam",
+    "thrissur",
+    "kollam",
+    "palakkad",
+    "malappuram",
+    "kannur",
+    "alappuzha",
+    "kasaragod",
+    "pathanamthitta",
+    "wayanad",
+    "idukki",
+]
+
+
+def get_state_listing_urls(state: str, deep: bool = False) -> list[str]:
+    """Return all listing URLs to scrape for the given state.
+
+    If deep=True, expands to all stream categories and regional districts,
+    discovering 500+ institutions instead of only the top 30 on the primary page.
+    """
+    slug = get_state_slug(state)
+    urls = [f"{BASE_URL}/{slug}-colleges"]
+
+    if not deep:
+        return urls
+
+    # Category listings for this state (e.g. /engineering/kerala-colleges)
+    for cat in STREAM_CATEGORIES:
+        urls.append(f"{BASE_URL}/{cat}/{slug}-colleges")
+
+    # If state is Kerala, add all 14 district listings
+    if slug == "kerala":
+        for district in KERALA_DISTRICT_SLUGS:
+            urls.append(f"{BASE_URL}/{district}-colleges")
+
+    return urls
+
+
+def _fetch_single_college(url: str, default_state: str) -> Optional[dict]:
+    """Fetch and parse one college detail page. Returns dict or None."""
+    page_html = _fetch(url)
+    if not page_html:
+        return None
+
+    info = _extract_college_info(url, page_html, default_state=default_state)
+    fallback_name = info["name"]
+    better_name = _extract_name_from_html(page_html, fallback_name)
+    if better_name != fallback_name:
+        info["name"] = better_name
+
+    if not info["website"]:
+        info["website"] = _find_official_website_in_html(page_html)
+
+    return info if info.get("website") else None
+
+
 def scrape_colleges(
     state: str = "Kerala",
     limit: Optional[int] = None,
-    delay: float = 1.0,
+    delay: float = 0.5,
     verbose: bool = True,
+    deep: bool = False,
+    workers: int = 6,
 ) -> list:
     """Scrape CollegeDunia for colleges in any Indian state.
 
@@ -311,73 +450,89 @@ def scrape_colleges(
     Only colleges where an official website could be resolved are returned.
 
     Args:
-        state: Name of the Indian state (e.g. 'Karnataka', 'Tamil Nadu', 'Maharashtra', etc.).
-        limit: Maximum number of colleges to process (None = all available on listing).
-        delay: Seconds to wait between requests to avoid rate limiting.
+        state: Name of the Indian state (e.g. 'Kerala', 'Karnataka', etc.).
+        limit: Maximum number of colleges to process (None = all available).
+        delay: Delay in seconds between requests (for single-worker mode).
         verbose: Print progress to stdout.
+        deep: If True, scrape across all streams and districts (discovers 500+ colleges).
+        workers: Number of concurrent threads for detail page fetching.
     """
-    listing_url = get_state_listing_url(state)
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+
     state_display = state.strip().title()
+    listing_urls = get_state_listing_urls(state, deep=deep)
 
     if verbose:
         print(f"[CollegeDunia] Target State: {state_display}")
-        print(f"[CollegeDunia] Fetching listing: {listing_url}")
+        print(f"[CollegeDunia] Scanning {len(listing_urls)} listing page(s) (deep={deep})...")
 
-    html = _fetch(listing_url)
-    if not html:
-        log.error("Failed to fetch CollegeDunia listing page for %s: %s", state_display, listing_url)
-        return []
+    college_urls = []
+    seen_urls = set()
 
-    college_urls = _get_college_urls_from_listing(html)
+    for l_url in listing_urls:
+        html = _fetch(l_url)
+        if not html:
+            continue
+        extracted = _get_college_urls_from_listing(html)
+        new_count = 0
+        for u in extracted:
+            if u not in seen_urls:
+                seen_urls.add(u)
+                college_urls.append(u)
+                new_count += 1
+        if verbose and deep and new_count > 0:
+            slug_part = l_url.split("collegedunia.com/")[-1]
+            print(f"  + {slug_part}: {len(extracted)} colleges ({new_count} new, cumulative: {len(college_urls)})")
+
     if not college_urls:
-        log.error("No college URLs found in JSON-LD for %s -- page structure may have changed", state_display)
+        log.error("No college URLs found for %s", state_display)
         return []
 
     total_found = len(college_urls)
     if verbose:
-        print("[OK] Found %d college URLs in JSON-LD for %s" % (total_found, state_display))
+        print(f"[OK] Discovered {total_found} unique college URLs across {state_display}")
 
-    if limit:
+    if limit and limit > 0:
         college_urls = college_urls[:limit]
         if verbose:
-            print("[INFO] Processing first %d colleges (limit=%d)" % (len(college_urls), limit))
+            print(f"[INFO] Processing first {len(college_urls)} colleges (limit={limit})")
 
     results = []
-    for i, url in enumerate(college_urls, start=1):
-        if verbose and (i % 10 == 0 or i == 1):
-            print("  [%d/%d] Fetching: %s" % (i, len(college_urls), url))
+    completed_count = 0
+    total_to_fetch = len(college_urls)
 
-        page_html = _fetch(url)
-        if not page_html:
-            log.warning("Empty response for %s -- skipping", url)
+    if workers > 1:
+        if verbose:
+            print(f"[INFO] Fetching college details with {workers} concurrent workers...")
+
+        with ThreadPoolExecutor(max_workers=workers) as executor:
+            futures = {
+                executor.submit(_fetch_single_college, u, state_display): u
+                for u in college_urls
+            }
+            for fut in as_completed(futures):
+                completed_count += 1
+                try:
+                    res = fut.result()
+                    if res and res.get("website"):
+                        results.append(res)
+                        if verbose and (completed_count % 25 == 0 or completed_count == total_to_fetch):
+                            print(f"  [{completed_count}/{total_to_fetch}] Resolved: {res['name']} ({len(results)} valid websites)")
+                except Exception as exc:
+                    log.debug("Worker fetch error: %s", exc)
+    else:
+        for i, url in enumerate(college_urls, start=1):
+            if verbose and (i % 10 == 0 or i == 1):
+                print(f"  [{i}/{len(college_urls)}] Fetching: {url}")
+            res = _fetch_single_college(url, default_state=state_display)
+            if res:
+                results.append(res)
+                if verbose:
+                    print(f"    [+] {res['name']} -> {res['website']}")
             time.sleep(delay)
-            continue
-
-        info = _extract_college_info(url, page_html, default_state=state_display)
-
-        # Improve name from og:title / <title> if JSON-LD name was just the slug
-        fallback_name = info["name"]
-        better_name = _extract_name_from_html(page_html, fallback_name)
-        if better_name != fallback_name:
-            info["name"] = better_name
-
-        # Last resort: look for official website link in raw HTML
-        if not info["website"]:
-            info["website"] = _find_official_website_in_html(page_html)
-
-        if info["website"]:
-            results.append(info)
-            if verbose:
-                print("    [+] %s -> %s" % (info["name"], info["website"]))
-        else:
-            log.debug("No official website found for %s", url)
-            if verbose:
-                print("    [-] %s - no website found" % info["name"])
-
-        time.sleep(delay)
 
     if verbose:
-        print(f"\n[DONE] {len(results)} colleges with websites out of {len(college_urls)} processed for {state_display}")
+        print(f"\n[DONE] Successfully resolved {len(results)} colleges with verified official websites out of {len(college_urls)} candidates for {state_display}")
 
     return results
 

@@ -24,8 +24,9 @@ def test_app_renders_without_errors(tmp_path, monkeypatch):
         at.text_input[1].set_value("admin@123")
         at.form_submit_button[0].click().run()
         assert not at.exception, [e.value for e in at.exception]
-        # After login there should be 6 tabs: Dashboard, Contacts, Templates, Send, History, Automation
-        assert len(at.tabs) >= 6, f"Expected >= 6 tabs after login, got {len(at.tabs)}"
+        # After login there are navigation items in the sidebar radio
+        assert len(at.sidebar.radio) >= 1, "Expected sidebar navigation radio"
+        assert len(at.sidebar.radio[0].options) >= 6, f"Expected >= 6 nav options, got {len(at.sidebar.radio[0].options)}"
     except (IndexError, AttributeError):
         # If AppTest doesn't expose form inputs (older Streamlit), skip the tab assertion.
         pytest.skip("AppTest login simulation not supported in this Streamlit version")

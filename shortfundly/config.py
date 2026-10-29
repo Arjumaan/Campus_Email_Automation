@@ -54,7 +54,7 @@ class Config:
     request_timeout: int = 20
     retry_count: int = 3
     per_domain_delay: float = 2.0
-    user_agent: str = "ShortfundlyCampusBot/1.0 (+contact: admin)"
+    user_agent: str = "CampusOutreachBot/1.0 (+contact: admin)"
     notifications_enabled: bool = False
     notify_recipient: str = ""
     log_level: str = "INFO"
@@ -102,7 +102,7 @@ class Config:
             request_timeout=max(1, _int(env, "REQUEST_TIMEOUT", 20)),
             retry_count=max(0, _int(env, "RETRY_COUNT", 3)),
             per_domain_delay=max(0.0, _float(env, "PER_DOMAIN_DELAY", 2.0)),
-            user_agent=get("USER_AGENT", "ShortfundlyCampusBot/1.0 (+contact: admin)"),
+            user_agent=get("USER_AGENT", "CampusOutreachBot/1.0 (+contact: admin)"),
             notifications_enabled=get("NOTIFICATIONS_ENABLED", "false").lower() in ("1", "true", "yes", "on"),
             notify_recipient=get("NOTIFY_RECIPIENT"),
             log_level=get("LOG_LEVEL", "INFO").upper(),

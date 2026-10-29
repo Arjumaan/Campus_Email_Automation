@@ -1,4 +1,4 @@
-"""Shortfundly Campus Email Automation - Streamlit dashboard.
+"""Campus Outreach Email Automation - Streamlit dashboard.
 
 Run with:  streamlit run app.py
 """
@@ -19,46 +19,30 @@ from shortfundly import template_service as ts
 from shortfundly.config import Config, load_config
 from shortfundly.mailer import SMTPMailer
 
-st.set_page_config(page_title="Shortfundly Campus Outreach Engine", page_icon="🔴", layout="wide")
+st.set_page_config(page_title="Campus Outreach Email Automation", page_icon="✉️", layout="wide")
 
 VERIFICATION_OPTIONS = ["All", "verified", "unverified"]
 
 # --------------------------------------------------------------- UI / styling
 
 
-def _app_dir() -> str:
-    try:
-        return os.path.dirname(os.path.abspath(__file__))
-    except NameError:
-        return os.getcwd()
-
-
 def _logo_html(size_px: int = 56) -> str:
-    """Return an <img> tag with the embedded logo.jpg, or an SVG fallback."""
-    path = os.path.join(_app_dir(), "logo.jpg")
-    try:
-        with open(path, "rb") as fh:
-            data = _b64.b64encode(fh.read()).decode("ascii")
-        return (
-            f'<img class="sf-logo" src="data:image/jpeg;base64,{data}" '
-            f'style="width:{size_px}px;height:{size_px}px;border-radius:50%;object-fit:cover;'
-            f'box-shadow:0 0 16px rgba(255,43,68,0.45);border:2px solid rgba(255,43,68,0.6);" alt="Shortfundly"/>'
-        )
-    except Exception:
-        return (
-            f'<svg class="sf-logo" viewBox="0 0 100 100" style="width:{size_px}px;height:{size_px}px;" xmlns="http://www.w3.org/2000/svg">'
-            '<circle cx="50" cy="50" r="46" fill="#0B0E14" stroke="#FF2B44" stroke-width="4"/>'
-            '<circle cx="50" cy="50" r="38" fill="url(#grad)"/>'
-            '<defs><linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">'
-            '<stop offset="0%" stop-color="#FF2B44"/><stop offset="100%" stop-color="#8B1020"/>'
-            '</linearGradient></defs>'
-            '<path d="M42 32 L70 50 L42 68 Z" fill="#ffffff"/></svg>'
-        )
+    """Return an SVG logo emblem for Campus Outreach Email Automation."""
+    return (
+        f'<div class="sf-hero-icon" style="width:{size_px}px; height:{size_px}px; border-radius:16px; '
+        f'background:linear-gradient(135deg, rgba(37,99,235,0.24) 0%, rgba(17,24,39,0.95) 100%); '
+        f'border:1px solid rgba(59,130,246,0.45); display:flex; align-items:center; justify-content:center; '
+        f'box-shadow:0 10px 24px -4px rgba(37,99,235,0.4); color:#3B82F6; flex-shrink:0;">'
+        f'<svg width="{int(size_px*0.52)}" height="{int(size_px*0.52)}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">'
+        f'<path d="M22 17a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9.5C2 7 4 5 6.5 5H17.5C20 5 22 7 22 9.5V17Z"></path>'
+        f'<polyline points="22,7 12,13 2,7"></polyline>'
+        f'</svg></div>'
+    )
 
 
 _GLOBAL_CSS = """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Material+Icons&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
 
 /* ---- Base & Typography ---- */
 html, body, .stApp, .stMarkdown, .stText, [data-testid="stMarkdownContainer"], [data-baseweb="input"] input, div[data-testid="stMetricValue"] {
@@ -101,30 +85,30 @@ span[translate="no"] {
 ::-webkit-scrollbar { width: 7px; height: 7px; }
 ::-webkit-scrollbar-track { background: #0B0E14; }
 ::-webkit-scrollbar-thumb { background: #1E2838; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #FF2B44; }
+::-webkit-scrollbar-thumb:hover { background: #2563EB; }
 
 /* ---- Animations ---- */
 @keyframes sfFadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes sfPulseGlow { 0%, 100% { box-shadow: 0 0 12px rgba(255,43,68,0.25); } 50% { box-shadow: 0 0 26px rgba(255,43,68,0.6); } }
+@keyframes sfPulseGlow { 0%, 100% { box-shadow: 0 0 12px rgba(37,99,235,0.25); } 50% { box-shadow: 0 0 26px rgba(59,130,246,0.6); } }
 @keyframes sfPulseDot { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.35); opacity: 0.6; } }
 
-/* ---- Modern Hero Header ---- */
+/* ---- Modern Executive Hero Header ---- */
 .sf-hero {
-  border-radius: 20px;
-  padding: 24px 30px;
-  margin-bottom: 22px;
+  border-radius: 18px;
+  padding: 20px 26px;
+  margin-bottom: 20px;
   color: #fff;
-  background: linear-gradient(135deg, rgba(255,43,68,0.14) 0%, rgba(20,26,38,0.95) 55%, rgba(11,14,20,0.98) 100%);
-  border: 1px solid rgba(255,43,68,0.25);
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.14) 0%, rgba(17, 24, 40, 0.95) 50%, rgba(10, 14, 22, 0.98) 100%);
+  border: 1px solid rgba(59, 130, 246, 0.25);
   backdrop-filter: blur(20px);
-  box-shadow: 0 16px 40px -8px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.1);
-  animation: sfFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(59, 130, 246, 0.12);
+  animation: sfFadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-.sf-hero-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
-.sf-hero-left { display: flex; align-items: center; gap: 18px; }
-.sf-hero-text h1 { margin: 0; font-size: 1.95rem; font-weight: 800; letter-spacing: -0.02em; color: #ffffff; }
-.sf-hero-text p { margin: 0.35rem 0 0; opacity: 0.88; font-size: 0.96rem; color: #cbd5e1; }
-.sf-hero-pills { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.sf-hero-row { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+.sf-hero-left { display: flex; align-items: center; gap: 16px; }
+.sf-hero-text h1 { margin: 0; font-size: 1.85rem; font-weight: 800; letter-spacing: -0.025em; color: #ffffff; }
+.sf-hero-text p { margin: 0.25rem 0 0; opacity: 0.88; font-size: 0.92rem; color: #94A3B8; }
+.sf-hero-pills { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 
 /* ---- Modern Pill Badges ---- */
 .sf-pill {
@@ -153,26 +137,26 @@ span[translate="no"] {
 
 /* ---- Metric Cards (Glassmorphic & Hover Lift) ---- */
 div[data-testid="stMetric"] {
-  background: linear-gradient(150deg, #141B26 0%, #0E121A 100%) !important;
+  background: linear-gradient(155deg, rgba(20, 27, 42, 0.75) 0%, rgba(13, 17, 27, 0.9) 100%) !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  border-top: 3px solid #FF2B44 !important;
   border-radius: 14px !important;
   padding: 16px 20px !important;
-  box-shadow: 0 10px 25px -4px rgba(0,0,0,0.4) !important;
+  box-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
   animation: sfFadeUp 0.5s ease both;
+  backdrop-filter: blur(12px) !important;
 }
 div[data-testid="stMetric"]:hover {
-  transform: translateY(-4px) !important;
-  border-top-color: #FF4D64 !important;
-  box-shadow: 0 16px 36px -4px rgba(255, 43, 68, 0.2), 0 0 1px 1px rgba(255, 43, 68, 0.3) !important;
+  transform: translateY(-3px) !important;
+  border-color: rgba(59, 130, 246, 0.45) !important;
+  box-shadow: 0 14px 32px -4px rgba(37, 99, 235, 0.22), inset 0 1px 0 rgba(59, 130, 246, 0.2) !important;
 }
 div[data-testid="stMetric"] label {
-  font-size: 0.8rem !important;
-  font-weight: 600 !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
   color: #94A3B8 !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.05em !important;
+  letter-spacing: 0.06em !important;
 }
 div[data-testid="stMetric"] div[data-testid="stMetricValue"] {
   font-size: 1.85rem !important;
@@ -205,9 +189,9 @@ div[data-testid="stMetric"] div[data-testid="stMetricValue"] {
   background: rgba(255, 255, 255, 0.04) !important;
 }
 .stTabs [aria-selected="true"] {
-  background: linear-gradient(135deg, #FF2B44 0%, #C41228 100%) !important;
+  background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%) !important;
   color: #FFFFFF !important;
-  box-shadow: 0 4px 14px rgba(255, 43, 68, 0.38) !important;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4) !important;
 }
 .stTabs [data-baseweb="tab-highlight"], .stTabs [data-baseweb="tab-border"] {
   display: none !important;
@@ -215,20 +199,20 @@ div[data-testid="stMetric"] div[data-testid="stMetricValue"] {
 
 /* ---- Buttons ---- */
 button[kind="primary"], .stButton > button[type="primary"] {
-  background: linear-gradient(135deg, #FF2B44 0%, #D4142D 100%) !important;
+  background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%) !important;
   color: #FFFFFF !important;
   border: none !important;
   border-radius: 12px !important;
   font-weight: 700 !important;
   letter-spacing: 0.02em !important;
   padding: 0.55rem 1.35rem !important;
-  box-shadow: 0 4px 16px rgba(255, 43, 68, 0.32) !important;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35) !important;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 button[kind="primary"]:hover, .stButton > button[type="primary"]:hover {
   transform: translateY(-2px) !important;
-  box-shadow: 0 8px 24px rgba(255, 43, 68, 0.5) !important;
-  background: linear-gradient(135deg, #FF455C 0%, #E01B34 100%) !important;
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.55) !important;
+  background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%) !important;
 }
 .stButton > button:not([kind="primary"]) {
   background: #141B27 !important;
@@ -240,7 +224,7 @@ button[kind="primary"]:hover, .stButton > button[type="primary"]:hover {
 }
 .stButton > button:not([kind="primary"]):hover {
   background: #1C2637 !important;
-  border-color: #FF2B44 !important;
+  border-color: #2563EB !important;
   color: #FFFFFF !important;
   transform: translateY(-1px) !important;
 }
@@ -254,25 +238,257 @@ div[data-baseweb="input"], div[data-baseweb="select"] > div, div[data-baseweb="t
   transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
 }
 div[data-baseweb="input"]:focus-within, div[data-baseweb="select"] > div:focus-within, div[data-baseweb="textarea"]:focus-within {
-  border-color: #FF2B44 !important;
-  box-shadow: 0 0 0 3px rgba(255, 43, 68, 0.22) !important;
+  border-color: #2563EB !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25) !important;
 }
 
-/* ---- Containers & Cards ---- */
+/* ---- Glass Containers & Cards ---- */
 div[data-testid="stVerticalBlockBorderWrapper"] {
-  background: #111622 !important;
-  border: 1px solid #1D2638 !important;
+  background: linear-gradient(160deg, rgba(18, 25, 40, 0.8) 0%, rgba(11, 15, 25, 0.95) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.07) !important;
   border-radius: 18px !important;
-  padding: 22px 24px !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
-  margin-bottom: 18px !important;
+  padding: 24px 26px !important;
+  box-shadow: 0 14px 36px -6px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(16px) !important;
+  margin-bottom: 20px !important;
   animation: sfFadeUp 0.5s ease both;
+}
+
+/* ---- Modern Sidebar Navigation Menu ---- */
+[data-testid="stSidebar"] [data-testid="stRadio"] {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  margin-top: 4px !important;
+}
+/* Hide radio group title / widget label */
+[data-testid="stSidebar"] [data-testid="stRadio"] > label,
+[data-testid="stSidebar"] [data-testid="stRadio"] [data-testid="stWidgetLabel"] {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+[data-testid="stSidebar"] [data-testid="stRadio"] [role="radiogroup"] {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+}
+/* Hide the radio input and selection indicators */
+[data-testid="stSidebar"] [data-testid="stRadio"] input[type="radio"],
+[data-testid="stSidebar"] [data-testid="stRadio"] div[data-testid="stWidgetSelectionIndicator"],
+[data-testid="stSidebar"] [data-testid="stRadio"] div[class*="WidgetSelectionIndicator"],
+[data-testid="stSidebar"] [data-testid="stRadio"] div[class*="RadioIndicator"] {
+  display: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  opacity: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: absolute !important;
+  pointer-events: none !important;
+}
+/* In Streamlit radio labels, Child 1 is the circle, Child 2 is the text wrapper */
+[data-testid="stSidebar"] [data-testid="stRadio"] label > div:first-of-type {
+  display: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+/* Force Child 2 (text container) and markdown container to be fully visible */
+[data-testid="stSidebar"] [data-testid="stRadio"] label > div:last-of-type,
+[data-testid="stSidebar"] [data-testid="stRadio"] label > div:last-child,
+[data-testid="stSidebar"] [data-testid="stRadio"] [data-testid="stMarkdownContainer"] {
+  display: flex !important;
+  align-items: center !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 100% !important;
+  color: inherit !important;
+}
+/* Style the navigation button */
+[data-testid="stSidebar"] [data-testid="stRadio"] label {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-radius: 12px !important;
+  padding: 10px 14px !important;
+  color: #94A3B8 !important;
+  font-weight: 600 !important;
+  font-size: 0.92rem !important;
+  cursor: pointer !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+[data-testid="stSidebar"] [data-testid="stRadio"] label:hover {
+  background: rgba(37, 99, 235, 0.09) !important;
+  color: #FFFFFF !important;
+  border-color: rgba(59, 130, 246, 0.3) !important;
+  transform: translateX(3px) !important;
+}
+/* Active navigation button */
+[data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked),
+[data-testid="stSidebar"] [data-testid="stRadio"] label[data-checked="true"] {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.22) 0%, rgba(19, 27, 42, 0.95) 100%) !important;
+  border: 1px solid rgba(59, 130, 246, 0.5) !important;
+  border-left: 4px solid #2563EB !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 18px -2px rgba(37, 99, 235, 0.35) !important;
+  font-weight: 700 !important;
+}
+/* Force navigation text and emojis to be clearly visible */
+[data-testid="stSidebar"] [data-testid="stRadio"] [data-testid="stMarkdownContainer"] p,
+[data-testid="stSidebar"] [data-testid="stRadio"] [data-testid="stMarkdownContainer"] span {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  color: inherit !important;
+  font-size: 0.92rem !important;
+  font-weight: inherit !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4 !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+}
+
+/* ---- Executive KPI Components ---- */
+.kpi-card {
+  background: linear-gradient(155deg, rgba(20, 28, 44, 0.8) 0%, rgba(12, 17, 27, 0.95) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 20px 22px;
+  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
+.kpi-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 0 16px 36px -6px rgba(37, 99, 235, 0.2), inset 0 1px 0 rgba(59, 130, 246, 0.25);
+}
+.kpi-card-glow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.kpi-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.kpi-icon-pill {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.kpi-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+}
+.kpi-badge-rose, .kpi-badge-blue { background: rgba(37, 99, 235, 0.15); color: #93C5FD; border: 1px solid rgba(59, 130, 246, 0.35); }
+.kpi-badge-emerald { background: rgba(16, 185, 129, 0.15); color: #6EE7B7; border: 1px solid rgba(16, 185, 129, 0.3); }
+.kpi-badge-amber { background: rgba(245, 158, 11, 0.15); color: #FCD34D; border: 1px solid rgba(245, 158, 11, 0.3); }
+.kpi-badge-purple { background: rgba(168, 85, 247, 0.15); color: #D8B4FE; border: 1px solid rgba(168, 85, 247, 0.3); }
+.kpi-value {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+.kpi-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #E2E8F0;
+  margin-bottom: 4px;
+}
+.kpi-subtext {
+  font-size: 0.78rem;
+  color: #94A3B8;
+  line-height: 1.4;
+}
+
+/* ---- Hub Leaderboard Item ---- */
+.hub-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 8px;
+  transition: all 0.2s ease;
+}
+.hub-item:hover {
+  background: rgba(37, 99, 235, 0.08);
+  border-color: rgba(59, 130, 246, 0.3);
+  transform: translateX(2px);
+}
+.hub-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #F1F5F9;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.hub-badge {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #60A5FA;
+  background: rgba(37, 99, 235, 0.14);
+  padding: 2px 10px;
+  border-radius: 9999px;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+/* ---- Assurance Shield Banner ---- */
+.assurance-banner {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.09) 0%, rgba(15, 23, 42, 0.95) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-left: 4px solid #10B981;
+  border-radius: 14px;
+  padding: 16px 20px;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.sidebar-spacer {
+  height: 18px;
 }
 
 /* ---- Sidebar Profile & Widgets ---- */
 .sf-profile-card {
-  background: linear-gradient(135deg, rgba(255, 43, 68, 0.12) 0%, rgba(20, 26, 38, 0.8) 100%);
-  border: 1px solid rgba(255, 43, 68, 0.3);
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.12) 0%, rgba(19, 27, 42, 0.8) 100%);
+  border: 1px solid rgba(59, 130, 246, 0.3);
   border-radius: 16px;
   padding: 16px;
   margin-bottom: 16px;
@@ -282,10 +498,10 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
 }
 .sf-profile-avatar {
   width: 44px; height: 44px; border-radius: 50%;
-  background: linear-gradient(135deg, #FF2B44, #991020);
+  background: linear-gradient(135deg, #2563EB, #1D4ED8);
   display: flex; align-items: center; justify-content: center;
   font-size: 1.15rem; font-weight: 800; color: white;
-  box-shadow: 0 4px 12px rgba(255, 43, 68, 0.45);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.45);
 }
 .sf-profile-info h3 { margin: 0; font-size: 1.05rem; font-weight: 700; color: #FFFFFF; }
 .sf-profile-info p { margin: 2px 0 0; font-size: 0.78rem; color: #94A3B8; }
@@ -303,10 +519,10 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
   width: 56px;
   height: 56px;
   border-radius: 16px;
-  background: linear-gradient(135deg, rgba(255, 43, 68, 0.18) 0%, rgba(255, 43, 68, 0.04) 100%);
-  border: 1px solid rgba(255, 43, 68, 0.35);
-  box-shadow: 0 10px 28px -4px rgba(255, 43, 68, 0.35);
-  color: #FF3B53;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.22) 0%, rgba(37, 99, 235, 0.05) 100%);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  box-shadow: 0 10px 28px -4px rgba(37, 99, 235, 0.35);
+  color: #3B82F6;
   margin-bottom: 14px;
 }
 .login-title {
@@ -366,7 +582,11 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
 div[data-testid="stForm"] {
   background: linear-gradient(160deg, #131926 0%, #0D121B 100%) !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  border-top: 2px solid #FF2B44 !important;
+  border-top: 2px solid #2563EB !important;
+  border-radius: 20px !important;
+  padding: 26px 28px !important;
+  box-shadow: 0 20px 48px -12px rgba(0, 0, 0, 0.65), 0 0 1px 1px rgba(255, 255, 255, 0.04) !important;
+}
   border-radius: 20px !important;
   padding: 26px 28px !important;
   box-shadow: 0 20px 48px -12px rgba(0, 0, 0, 0.65), 0 0 1px 1px rgba(255, 255, 255, 0.04) !important;
@@ -446,9 +666,87 @@ def csv_download(df: pd.DataFrame, label: str, filename: str, key: str) -> None:
 
 
 # ------------------------------------------------------------------ sidebar
-def render_sidebar(conn, cfg: Config) -> dict:
+def render_sidebar_and_nav(conn, cfg: Config) -> tuple[str, dict]:
+    """Render the executive sidebar:
+    1. TOP: Platform brand header + main navigation menu (migrated from top bar).
+    2. DOWN: Operational controls (Dispatch safeguards, sender profile, user details, sign out).
+    """
     with st.sidebar:
-        # Profile Header
+        # 1. Top Brand Header
+        st.markdown(
+            """
+            <div style="display:flex; align-items:center; gap:12px; padding:6px 2px 16px 2px; border-bottom:1px solid rgba(255,255,255,0.08); margin-bottom:14px;">
+              <div style="width:42px; height:42px; border-radius:12px; background:linear-gradient(135deg, rgba(37,99,235,0.25) 0%, rgba(37,99,235,0.06) 100%); border:1px solid rgba(59,130,246,0.4); display:flex; align-items:center; justify-content:center; color:#3B82F6; box-shadow:0 6px 16px rgba(37,99,235,0.3); flex-shrink:0;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 17a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9.5C2 7 4 5 6.5 5H17.5C20 5 22 7 22 9.5V17Z"></path>
+                  <polyline points="22,7 12,13 2,7"></polyline>
+                </svg>
+              </div>
+              <div style="min-width:0;">
+                <div style="font-size:1.02rem; font-weight:800; color:#FFFFFF; letter-spacing:-0.02em; line-height:1.2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Campus Outreach</div>
+                <div style="font-size:0.75rem; color:#94A3B8; font-weight:500;">Email Automation · Kerala</div>
+              </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        st.caption("PLATFORM NAVIGATION")
+        nav_options = [
+            "📊  Dashboard",
+            "📇  Contacts Directory",
+            "✉️  Email Templates",
+            "🚀  Send & Dispatch",
+            "📜  Delivery History",
+            "⚡  Autonomous Pipeline",
+            "📄  Worker Engine Logs",
+        ]
+        active_page = st.radio(
+            "Navigation Menu",
+            nav_options,
+            label_visibility="collapsed",
+            key="_main_nav_radio",
+        )
+
+        # 2. DOWN IN SIDEBAR (operational controls migrated downwards)
+        st.markdown("<div class='sidebar-spacer'></div>", unsafe_allow_html=True)
+        st.divider()
+
+        st.caption("SYSTEM CONTROLS & SAFEGUARDS")
+
+        # Safeguards Expander
+        with st.expander("🛡️ Dispatch Safeguards", expanded=False):
+            if cfg.send_mode == "live":
+                st.error("⚡ **LIVE MODE ENABLED**\n\nReal emails permitted after explicit two-factor typing confirmation.")
+            else:
+                st.success(
+                    f"🛡️ **TEST MODE (Safe)**\n\nEvery email safely intercepted and routed to:\n`{cfg.test_recipient or 'arjumaan21@gmail.com'}`"
+                )
+            st.caption("SMTP Service: " + ("✅ Configured" if cfg.smtp_configured else "⚠️ Not configured (.env)"))
+            if st.button("🔍 Test SMTP Connection", disabled=not cfg.smtp_configured, use_container_width=True, key="side_test_smtp"):
+                try:
+                    SMTPMailer(cfg).check_connection()
+                    st.success("✅ SMTP authenticated successfully.")
+                except Exception as exc:  # noqa: BLE001
+                    err_msg = str(exc)
+                    if hasattr(exc, "smtp_error") and isinstance(exc.smtp_error, bytes):
+                        err_msg = exc.smtp_error.decode("utf-8", errors="replace")
+                    st.error(cfg.redact(f"❌ {type(exc).__name__}: {err_msg}"))
+
+        # Sender Profile Expander
+        current_sender = get_sender(conn, cfg)
+        with st.expander("✍️ Sender Profile", expanded=False):
+            st.caption("Applied dynamically across `{sender_name}` and `{sender_title}` variables.")
+            with st.form("sender_form_down"):
+                name = st.text_input("Sender name", value=current_sender["sender_name"])
+                title = st.text_input("Sender title", value=current_sender["sender_title"])
+                if st.form_submit_button("Save sender details", use_container_width=True):
+                    db.set_setting(conn, "sender_name", name.strip() or "Arjumaan")
+                    db.set_setting(conn, "sender_title", title.strip())
+                    st.success("Sender profile saved.")
+                    st.rerun()
+
+        # User Profile Card & Sign out at bottom
         st.markdown(
             """
             <div class="sf-profile-card">
@@ -461,101 +759,232 @@ def render_sidebar(conn, cfg: Config) -> dict:
             """,
             unsafe_allow_html=True,
         )
-
-        if st.button("🚪 Sign out", use_container_width=True):
+        if st.button("🚪 Sign out", use_container_width=True, key="side_sign_out"):
             st.session_state.pop("_authenticated", None)
             st.rerun()
 
-        st.divider()
-        st.markdown("### 🛡️ Dispatch Safeguards")
-        if cfg.send_mode == "live":
-            st.error("⚡ **LIVE MODE ENABLED**\n\nReal emails permitted after explicit two-factor typing confirmation.")
-        else:
-            st.success(
-                f"🛡️ **TEST MODE (Safe)**\n\nEvery email safely intercepted and routed to:\n`{cfg.test_recipient or 'arjumaan21@gmail.com'}`"
-            )
-
-        st.caption("SMTP Service: " + ("✅ Configured" if cfg.smtp_configured else "⚠️ Not configured (.env)"))
-        if st.button("🔍 Test SMTP Connection", disabled=not cfg.smtp_configured, use_container_width=True):
-            try:
-                SMTPMailer(cfg).check_connection()
-                st.success("✅ SMTP authenticated successfully.")
-            except Exception as exc:  # noqa: BLE001
-                err_msg = str(exc)
-                if hasattr(exc, "smtp_error") and isinstance(exc.smtp_error, bytes):
-                    err_msg = exc.smtp_error.decode("utf-8", errors="replace")
-                st.error(cfg.redact(f"❌ {type(exc).__name__}: {err_msg}"))
-
-        st.divider()
-        st.markdown("### ✍️ Sender Details")
-        st.caption("Applied dynamically across `{sender_name}` and `{sender_title}` variables.")
-        current = get_sender(conn, cfg)
-        with st.form("sender_form"):
-            name = st.text_input("Sender name", value=current["sender_name"])
-            title = st.text_input("Sender title", value=current["sender_title"])
-            if st.form_submit_button("Save sender details", use_container_width=True):
-                db.set_setting(conn, "sender_name", name.strip() or "Arjumaan")
-                db.set_setting(conn, "sender_title", title.strip())
-                st.success("Sender profile saved.")
-                st.rerun()
-
         st.markdown(
             """
-            <div style="margin-top:20px; padding:12px; border-radius:10px; background:#0B0E14; border:1px solid #1D2638; font-size:0.75rem; color:#64748B;">
-              <div><strong>Region:</strong> Kerala (Official)</div>
-              <div><strong>Engine:</strong> Shortfundly Campus v2.5</div>
+            <div style="margin-top:10px; padding:10px 12px; border-radius:10px; background:#0B0E14; border:1px solid #1D2638; font-size:0.73rem; color:#64748B;">
+              <div><strong>Region:</strong> Kerala (129 Institutions)</div>
+              <div><strong>Platform:</strong> Campus Outreach v2.5</div>
               <div><strong>Account:</strong> arjumaan21@gmail.com</div>
             </div>
             """,
             unsafe_allow_html=True,
         )
-    return get_sender(conn, cfg)
+
+    return active_page, current_sender
+
+
+def _navigate_to(target: str) -> None:
+    """Safely navigate to another page via button on_click callback before widget instantiation."""
+    st.session_state["_main_nav_radio"] = target
 
 
 # ---------------------------------------------------------------- dashboard
 def render_dashboard(conn) -> None:
     s = stats_mod.get_stats(conn)
-    with st.container(border=True):
-        st.markdown("### 📇 Official Contact Directory")
-        c = st.columns(4)
-        c[0].metric("Total Contacts", s["contacts_total"])
-        c[1].metric("Verified Records", s["contacts_verified"])
-        c[2].metric("Pending Verification", s["contacts_unverified"])
-        c[3].metric("Validation Issues", s["contacts_invalid"])
+    colleges_total = conn.execute("SELECT COUNT(*) FROM colleges").fetchone()[0]
+    total_contacts = s["contacts_total"] or 0
+    verified_contacts = s["contacts_verified"] or 0
+    unverified_contacts = s["contacts_unverified"] or 0
+    dup_groups = s["duplicate_college_groups"] or 0
+    dup_members = s["duplicate_college_contacts"] or 0
+    pct_ver = (verified_contacts / total_contacts * 100) if total_contacts else 0.0
 
-        total = s["contacts_total"] or 0
-        if total:
-            pct = s["contacts_verified"] / total
-            st.markdown(f"**Verification Progress:** {s['contacts_verified']} of {total} contacts ({pct*100:.1f}%)")
-            st.progress(pct)
-
-        st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
-        c2 = st.columns(4)
-        c2[0].metric("Multi-Contact Colleges", s["duplicate_college_groups"])
-        c2[1].metric("Rejected: Invalid", s["rejected_invalid_rows"])
-        c2[2].metric("Rejected: Duplicate", s["rejected_duplicate_rows"])
-        c2[3].metric("Campus Group Members", s["duplicate_college_contacts"])
-
-    with st.container(border=True):
-        st.markdown("### 📧 Email Delivery Telemetry (Live)")
-        e = s["emails_live"]
-        c = st.columns(5)
-        c[0].metric("Pending Dispatch", e["pending"])
-        c[1].metric("Currently Sending", e["sending"])
-        c[2].metric("Accepted by SMTP", e["sent"])
-        c[3].metric("Dispatch Failed", e["failed"])
-        c[4].metric("Lifetime Tracked", e["total"])
-        t = s["emails_test"]
-        st.caption(
-            f"🛡️ Test-mode messages intercepted: {t['total']} total | "
-            f"{t['sent']} accepted | {t['failed']} failed | {t['pending']} pending."
+    # 1. Executive Metric Deck (4 distinct glass cards)
+    m1, m2, m3, m4 = st.columns(4)
+    with m1:
+        st.markdown(
+            f"""
+            <div class="kpi-card">
+              <div class="kpi-card-glow"></div>
+              <div class="kpi-card-top">
+                <div class="kpi-icon-pill">🏛️</div>
+                <span class="kpi-badge kpi-badge-blue">Kerala Network</span>
+              </div>
+              <div class="kpi-value">{colleges_total}</div>
+              <div class="kpi-title">Discovered Colleges</div>
+              <div class="kpi-subtext">Mapped across 14 Kerala revenue districts</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
         )
-        st.info(f"ℹ️ {sending.SMTP_ACCEPTANCE_NOTE}")
+    with m2:
+        st.markdown(
+            f"""
+            <div class="kpi-card">
+              <div class="kpi-card-glow"></div>
+              <div class="kpi-card-top">
+                <div class="kpi-icon-pill">📇</div>
+                <span class="kpi-badge kpi-badge-emerald">100% Kerala</span>
+              </div>
+              <div class="kpi-value">{total_contacts}</div>
+              <div class="kpi-title">Direct Outreach Leads</div>
+              <div class="kpi-subtext">Verified institutional decision-makers</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    with m3:
+        st.markdown(
+            f"""
+            <div class="kpi-card">
+              <div class="kpi-card-glow"></div>
+              <div class="kpi-card-top">
+                <div class="kpi-icon-pill">🛡️</div>
+                <span class="kpi-badge kpi-badge-amber">{pct_ver:.0f}% Verified</span>
+              </div>
+              <div class="kpi-value">{unverified_contacts}</div>
+              <div class="kpi-title">Pending Verification</div>
+              <div class="kpi-subtext">Ready for MX sweep & format checks</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    with m4:
+        st.markdown(
+            f"""
+            <div class="kpi-card">
+              <div class="kpi-card-glow"></div>
+              <div class="kpi-card-top">
+                <div class="kpi-icon-pill">👥</div>
+                <span class="kpi-badge kpi-badge-purple">{dup_groups} Clusters</span>
+              </div>
+              <div class="kpi-value">{dup_members}</div>
+              <div class="kpi-title">Multi-Stakeholder Contacts</div>
+              <div class="kpi-subtext">Colleges with multiple official desks</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
-    if s["contacts_by_state"]:
+    st.markdown("<div style='height: 14px;'></div>", unsafe_allow_html=True)
+
+    # 2. Operations Launchpad (Instant Action Tiles)
+    with st.container(border=True):
+        st.markdown(
+            "<div style='font-size:0.95rem; font-weight:700; color:#F8FAFC; margin-bottom:12px; display:flex; align-items:center; gap:8px;'>"
+            "<span>⚡ Operations Launchpad</span><span style='font-size:0.75rem; color:#94A3B8; font-weight:500;'>Direct Workflow Shortcuts</span></div>",
+            unsafe_allow_html=True,
+        )
+        q1, q2, q3, q4 = st.columns(4)
+        q1.button(
+            "🚀  Launch Dispatch Queue",
+            use_container_width=True,
+            key="dash_q_send",
+            on_click=_navigate_to,
+            args=("🚀  Send & Dispatch",),
+        )
+        q2.button(
+            "📇  Manage Kerala Contacts",
+            use_container_width=True,
+            key="dash_q_contacts",
+            on_click=_navigate_to,
+            args=("📇  Contacts Directory",),
+        )
+        q3.button(
+            "✉️  Review Email Templates",
+            use_container_width=True,
+            key="dash_q_tmpl",
+            on_click=_navigate_to,
+            args=("✉️  Email Templates",),
+        )
+        q4.button(
+            "⚡  Autonomous Pipeline",
+            use_container_width=True,
+            key="dash_q_auto",
+            on_click=_navigate_to,
+            args=("⚡  Autonomous Pipeline",),
+        )
+
+    # 3. Kerala Regional Hubs & Decision-Maker Matrix (2 Columns)
+    col_left, col_right = st.columns(2)
+
+    with col_left:
         with st.container(border=True):
-            st.markdown("### 📊 Contact Distribution by State")
-            st.bar_chart(pd.Series(s["contacts_by_state"], name="Contacts"), color="#FF2B44")
+            st.markdown(
+                "<div style='font-size:0.98rem; font-weight:700; color:#FFFFFF; margin-bottom:14px; display:flex; align-items:center; gap:8px;'>"
+                "<span>📍 Kerala Regional Educational Hubs</span></div>",
+                unsafe_allow_html=True,
+            )
+            top_cities = conn.execute(
+                "SELECT city, COUNT(*) AS n FROM contacts GROUP BY city ORDER BY n DESC LIMIT 6"
+            ).fetchall()
+            col_city_map = dict(
+                conn.execute("SELECT city, COUNT(*) FROM colleges GROUP BY city").fetchall()
+            )
+
+            for city_row in top_cities:
+                city_name = city_row["city"]
+                c_cnt = city_row["n"]
+                inst_cnt = col_city_map.get(city_name, 0)
+                st.markdown(
+                    f"""
+                    <div class="hub-item">
+                      <div class="hub-title"><span>🏛️</span> {city_name}</div>
+                      <div style="display:flex; align-items:center; gap:10px;">
+                        <span style="font-size:0.75rem; color:#94A3B8;">{inst_cnt} Institutions</span>
+                        <span class="hub-badge">{c_cnt} Direct Leads</span>
+                      </div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+
+    with col_right:
+        with st.container(border=True):
+            st.markdown(
+                "<div style='font-size:0.98rem; font-weight:700; color:#FFFFFF; margin-bottom:14px; display:flex; align-items:center; gap:8px;'>"
+                "<span>🎓 Institutional Stakeholders & Desks</span></div>",
+                unsafe_allow_html=True,
+            )
+            dept_counts = conn.execute(
+                "SELECT department, COUNT(*) AS n FROM contacts GROUP BY department ORDER BY n DESC LIMIT 6"
+            ).fetchall()
+
+            for dept_row in dept_counts:
+                dept_name = dept_row["department"] or "General Administration"
+                cnt = dept_row["n"]
+                st.markdown(
+                    f"""
+                    <div class="hub-item">
+                      <div class="hub-title"><span>👤</span> {dept_name}</div>
+                      <span class="kpi-badge kpi-badge-purple">{cnt} Authorities</span>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+
+    # 4. Live Delivery Telemetry Console & Interception Shield
+    with st.container(border=True):
+        st.markdown(
+            "<div style='font-size:0.98rem; font-weight:700; color:#FFFFFF; margin-bottom:14px; display:flex; align-items:center; gap:8px;'>"
+            "<span>📡 Email Dispatch Telemetry & Interception Console</span></div>",
+            unsafe_allow_html=True,
+        )
+        e = s["emails_live"]
+        t = s["emails_test"]
+        c1, c2, c3, c4, c5 = st.columns(5)
+        c1.metric("Pending In Queue", e["pending"])
+        c2.metric("In Flight (Sending)", e["sending"])
+        c3.metric("Accepted by SMTP", e["sent"])
+        c4.metric("Dispatch Failed", e["failed"])
+        c5.metric("Total Messages Tracked", e["total"])
+
+        st.markdown(
+            """
+            <div class="assurance-banner">
+              <div style="font-size:1.5rem; flex-shrink:0;">🛡️</div>
+              <div style="font-size:0.84rem; color:#E2E8F0; line-height:1.45;">
+                <strong>Safe Interception Active:</strong> In Test Mode, every outgoing proposal is safely intercepted and delivered to 
+                <code>arjumaan21@gmail.com</code>. <em>'Accepted'</em> confirms explicit SMTP server acknowledgment for relay.
+              </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
 
 # ----------------------------------------------------------------- contacts
@@ -736,8 +1165,8 @@ def render_export(conn) -> None:
     df = ct.search_contacts(conn, text, state, city, ver)
     st.caption(f"{len(df)} contact(s) ready for export")
     c1, c2 = st.columns(2)
-    c1.download_button("⬇️ Download CSV", ct.export_csv(df), "shortfundly_kerala_contacts.csv", "text/csv", key="dl_csv")
-    c2.download_button("⬇️ Download Excel (.xlsx)", ct.export_xlsx(df), "shortfundly_kerala_contacts.xlsx",
+    c1.download_button("⬇️ Download CSV", ct.export_csv(df), "kerala_campus_contacts.csv", "text/csv", key="dl_csv")
+    c2.download_button("📊 Download Excel (.xlsx)", ct.export_xlsx(df), "kerala_campus_contacts.xlsx",
                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", key="dl_xlsx")
     dups = ct.find_duplicate_colleges(conn)
     if not dups.empty:
@@ -1023,8 +1452,8 @@ def require_login() -> bool:
                   <polyline points="22,7 12,13 2,7"></polyline>
                 </svg>
               </div>
-              <h1 class="login-title">Campus Outreach Engine</h1>
-              <p class="login-subtitle">Email Automation & Intelligence Platform</p>
+              <h1 class="login-title">Campus Outreach Email Automation</h1>
+              <p class="login-subtitle">Official Institutional Outreach Platform · Kerala Region</p>
               <div>
                 <span class="login-system-pill">
                   <span class="login-dot"></span> System Ready · Kerala Region
@@ -1250,15 +1679,76 @@ def render_automation(conn, cfg: Config) -> None:
         except Exception:
             pass
 
-    # ---- Worker log tail ----
+def render_worker_logs() -> None:
+    """Dedicated console for background autonomous worker process logs."""
+    log_path = Path(__file__).resolve().parent / "data" / "worker.log"
+
     with st.container(border=True):
-        st.markdown("### 📄 Worker Engine Activity Log")
-        log_path = Path(__file__).resolve().parent / "data" / "worker.log"
-        if log_path.exists():
-            lines = log_path.read_text(encoding="utf-8", errors="replace").splitlines()
-            st.code("\n".join(lines[-50:]), language="")
+        st.markdown(
+            "<div style='font-size:1.15rem; font-weight:800; color:#FFFFFF; margin-bottom:14px; display:flex; align-items:center; gap:10px;'>"
+            "<span style='width:36px; height:36px; border-radius:10px; background:rgba(37,99,235,0.15); border:1px solid rgba(59,130,246,0.3); display:inline-flex; align-items:center; justify-content:center; color:#3B82F6;'>📄</span>"
+            "<span>Autonomous Worker Engine Activity Console</span></div>",
+            unsafe_allow_html=True,
+        )
+
+        if not log_path.exists():
+            st.info("No worker log file found at `data/worker.log`. Start the worker process to generate live activity telemetry.")
+            return
+
+        raw_text = log_path.read_text(encoding="utf-8", errors="replace")
+        all_lines = raw_text.splitlines()
+        file_size_kb = log_path.stat().st_size / 1024
+
+        # Telemetry metrics row
+        m1, m2, m3, m4 = st.columns(4)
+        m1.metric("Total Log Entries", len(all_lines))
+        m2.metric("Log File Size", f"{file_size_kb:.1f} KB")
+        info_count = sum(1 for line in all_lines if "[INFO]" in line)
+        warn_count = sum(1 for line in all_lines if "[WARNING]" in line or "[ERROR]" in line)
+        m3.metric("Information Events", info_count)
+        m4.metric("Warnings & Errors", warn_count)
+
+        st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
+
+        # Filter controls
+        f1, f2, f3 = st.columns([2, 1, 1])
+        filter_keyword = f1.text_input(
+            "🔍 Filter keyword",
+            placeholder="Search text (e.g. discovery, approve, sync, error)...",
+            key="worker_log_search",
+        )
+        line_count = f2.selectbox("Line limit", [50, 100, 200, 500, "All"], index=0, key="worker_log_lines")
+        log_level = f3.selectbox("Event level", ["All", "INFO", "WARNING", "ERROR"], index=0, key="worker_log_level")
+
+        lines_to_display = all_lines
+        if log_level != "All":
+            lines_to_display = [l for l in lines_to_display if f"[{log_level}]" in l]
+        if filter_keyword.strip():
+            kw = filter_keyword.strip().lower()
+            lines_to_display = [l for l in lines_to_display if kw in l.lower()]
+
+        if line_count != "All" and isinstance(line_count, int):
+            lines_to_display = lines_to_display[-line_count:]
+
+        st.caption(f"Displaying {len(lines_to_display)} event line(s) · Tailing `data/worker.log`")
+
+        if lines_to_display:
+            st.code("\n".join(lines_to_display), language="log")
         else:
-            st.info("No worker log found yet. Run the worker process to view live logs.")
+            st.info("No log events match the specified filter criteria.")
+
+        # Quick Actions
+        a1, a2 = st.columns([1, 1])
+        a1.download_button(
+            "⬇️ Download Full Log File (.log)",
+            raw_text.encode("utf-8"),
+            "worker.log",
+            "text/plain",
+            use_container_width=True,
+            key="dl_worker_log_btn",
+        )
+        if a2.button("🔄 Refresh Log Stream", use_container_width=True, key="refresh_worker_logs"):
+            st.rerun()
 
 
 # --------------------------------------------------------------------- main
@@ -1271,21 +1761,21 @@ def main() -> None:
         ts.ensure_default_template(conn)
         sending.recover_stuck_sending(conn, older_than_minutes=60)
         inject_css()
+        active_page, sender = render_sidebar_and_nav(conn, cfg)
         hero(
-            "Shortfundly Campus Outreach Engine",
+            "Campus Outreach Email Automation",
             "Official Institutional Outreach Platform · Kerala Region · Personalised Dispatch & Verification",
             mode=cfg.send_mode,
             state="Kerala",
             user="Arjumaan",
         )
-        sender = render_sidebar(conn, cfg)
         show_flash()
-        tabs = st.tabs(["Dashboard", "Contacts", "Templates", "Send", "History", "⚡ Automation"])
-        with tabs[0]:
-            st.caption("Real-time telemetry and metrics for contacts and deliverability.")
+
+        if "Dashboard" in active_page:
+            st.caption("Real-time telemetry and metrics for contacts and deliverability across Kerala.")
             render_dashboard(conn)
-        with tabs[1]:
-            st.caption("Manage official college contact records across Kerala and partner states.")
+        elif "Contacts" in active_page:
+            st.caption("Manage official college contact records across Kerala.")
             sub = st.tabs(["Browse & Edit", "Import", "Add Contact", "Verification", "Export"])
             with sub[0]:
                 render_browse(conn)
@@ -1297,18 +1787,21 @@ def main() -> None:
                 render_verification(conn)
             with sub[4]:
                 render_export(conn)
-        with tabs[2]:
+        elif "Templates" in active_page:
             st.caption("Compose, personalise, and maintain multi-variant outreach proposals.")
             render_templates(conn, sender)
-        with tabs[3]:
+        elif "Send" in active_page or "Dispatch" in active_page:
             st.caption("Select recipients, review live personalised previews, attach assets, and dispatch.")
             render_send(conn, cfg, sender)
-        with tabs[4]:
+        elif "History" in active_page:
             st.caption("Comprehensive delivery logs, error diagnostics, and automated retry system.")
             render_history(conn, cfg)
-        with tabs[5]:
+        elif "Pipeline" in active_page or "Automation" in active_page:
             st.caption("Autonomous monitoring engine: continuous discovery, contact scoring, and pipeline controls.")
             render_automation(conn, cfg)
+        elif "Worker" in active_page or "Logs" in active_page:
+            st.caption("Live streaming activity logs, diagnostics, and background worker telemetry.")
+            render_worker_logs()
     finally:
         conn.close()
 

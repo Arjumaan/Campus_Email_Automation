@@ -1,5 +1,16 @@
-state,city,college_name,website,contact_person,department,email,source_url
-Kerala,Bengaluru,Don Bosco Institute of Technology,https://www.dbit.edu.in,,Admissions,admissions@donboscobangalore.education,https://www.dbit.edu.in/apply-online/
-Kerala,Bengaluru,Nitte Meenakshi Institute of Technology,https://www.nmit.ac.in,,Admissions,enquiry@nitte.edu.in,https://www.nmit.ac.in/contact-nmit.php
-Kerala,Bengaluru,B.E.T. Degree College,https://betscollege.edu.in,,General Enquiries / Cultural Club,betdegreecollege@gmail.com,https://betscollege.edu.in/cultural-club/
-Kerala,Bengaluru,Brindavan College,https://www.brindavancollege.com,,Admissions,admissions@brindavancollege.com,https://diploma.brindavancollege.edu.in/contact-us-new
+﻿state,city,college_name,website,contact_person,department,email,source_url
+Kerala,Kozhikode,Indian Institute of Management Kozhikode (IIMK),https://www.iimk.ac.in,Prof. Debashis Chatterjee,Director's Office,director@iimk.ac.in,https://www.iimk.ac.in/contact-us
+Kerala,Kozhikode,Indian Institute of Management Kozhikode (IIMK),https://www.iimk.ac.in,Admissions Office,Admissions,admissions@iimk.ac.in,https://www.iimk.ac.in/contact-us
+Kerala,Calicut,National Institute of Technology Calicut (NITC),http://www.nitc.ac.in,Prof. Prasad Krishna,Director's Office,director@nitc.ac.in,http://www.nitc.ac.in/contact-us
+Kerala,Calicut,National Institute of Technology Calicut (NITC),http://www.nitc.ac.in,Dean (Academic),Academics,dean_acad@nitc.ac.in,http://www.nitc.ac.in/contact-us
+Kerala,Palakkad,Indian Institute of Technology Palakkad (IITPKD),http://iitpkd.ac.in,Director's Secretariat,Administration,director@iitpkd.ac.in,http://iitpkd.ac.in/contact-us
+Kerala,Palakkad,Indian Institute of Technology Palakkad (IITPKD),http://iitpkd.ac.in,Academic Section,Academics & Admissions,academic@iitpkd.ac.in,http://iitpkd.ac.in/contact-us
+Kerala,Kottayam,Indian Institute of Information Technology Kottayam (IIITK),http://www.iiitkottayam.ac.in,Registrar,Registrar's Office,registrar@iiitkottayam.ac.in,http://www.iiitkottayam.ac.in/#!/contact
+Kerala,Kochi,Cochin University of Science and Technology (CUSAT),http://www.cusat.ac.in,Registrar,Administration,registrar@cusat.ac.in,http://www.cusat.ac.in/contact
+Kerala,Kochi,Cochin University of Science and Technology (CUSAT),http://www.cusat.ac.in,IRAA Admissions,Admissions,admissions@cusat.ac.in,http://www.cusat.ac.in/contact
+Kerala,Thiruvananthapuram,University of Kerala,http://www.keralauniversity.ac.in,Registrar,Central Administration,registrar@keralauniversity.ac.in,http://www.keralauniversity.ac.in/contact
+Kerala,Kottayam,Mahatma Gandhi University (MGU),https://www.mgu.ac.in,Registrar,University Secretariat,registrar@mgu.ac.in,https://www.mgu.ac.in/contact-us/
+Kerala,Kannur,Kannur University,http://www.kannuruniversity.ac.in,Registrar,Administration,registrar@kannuruniversity.ac.in,http://www.kannuruniversity.ac.in/en/contact-us/
+Kerala,Kasaragod,Central University of Kerala (CUK),http://www.cukerala.ac.in,Registrar,Administration,registrar@cukerala.ac.in,http://www.cukerala.ac.in/contact-us/
+Kerala,Thiruvananthapuram,College of Engineering Trivandrum (CET),http://www.cet.ac.in,Dr. V. Suresh Babu,Principal's Office,principal@cet.ac.in,http://www.cet.ac.in/contact/
+Kerala,Thiruvananthapuram,College of Engineering Trivandrum (CET),http://www.cet.ac.in,Career Guidance & Placement Cell,Placements,placement@cet.ac.in,http://www.cet.ac.in/placement/

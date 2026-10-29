@@ -46,19 +46,26 @@ def _load_existing_websites(path: Path) -> set:
         return {(r.get("website") or "").strip().lower() for r in reader if r.get("website")}
 
 
-def update_seed_csv(colleges: list, csv_path: Path, default_state: str = "Kerala", dry_run: bool = False) -> dict:
-    """Merge scraped colleges into the seed CSV.
+def update_seed_csv(
+    colleges: list,
+    csv_path: Path,
+    default_state: str = "Kerala",
+    dry_run: bool = False,
+    overwrite: bool = False,
+) -> dict:
+    """Merge or overwrite scraped colleges into the seed CSV.
 
     Args:
         colleges: List of dicts from the scraper.
         csv_path: Path to the CSV file.
         default_state: Fallback state name if not provided in college dict.
         dry_run: If True, print what would be written but don't touch the file.
+        overwrite: If True, overwrite the target CSV file instead of appending.
 
     Returns:
         {"added": int, "skipped": int, "total": int}
     """
-    existing = _load_existing_websites(csv_path)
+    existing = set() if overwrite else _load_existing_websites(csv_path)
     new_rows = []
 
     for college in colleges:
@@ -79,7 +86,8 @@ def update_seed_csv(colleges: list, csv_path: Path, default_state: str = "Kerala
     stats = {"added": len(new_rows), "skipped": len(colleges) - len(new_rows), "total": len(colleges)}
 
     if dry_run:
-        print("\n[DRY RUN] Would add %d new colleges to %s" % (stats["added"], csv_path))
+        action = "Would write" if overwrite else "Would add"
+        print("\n[DRY RUN] %s %d colleges to %s" % (action, stats["added"], csv_path))
         for row in new_rows[:20]:
             print("  + %s | %s | %s | %s" % (row["name"], row["website"], row["city"], row["state"]))
         if len(new_rows) > 20:
@@ -90,16 +98,21 @@ def update_seed_csv(colleges: list, csv_path: Path, default_state: str = "Kerala
         print("[OK] Nothing new to add -- CSV is already up to date.")
         return stats
 
-    # Ensure the CSV exists with header
-    write_header = not csv_path.exists() or csv_path.stat().st_size == 0
-    with csv_path.open("a", newline="", encoding="utf-8-sig") as fh:
+    # Ensure parent directory exists
+    csv_path.parent.mkdir(parents=True, exist_ok=True)
+
+    mode = "w" if overwrite else "a"
+    write_header = overwrite or (not csv_path.exists() or csv_path.stat().st_size == 0)
+    with csv_path.open(mode, newline="", encoding="utf-8-sig") as fh:
         writer = csv.DictWriter(fh, fieldnames=CSV_FIELDS, extrasaction="ignore")
         if write_header:
             writer.writeheader()
         writer.writerows(new_rows)
 
-    print("\n[OK] Added %d new colleges to %s" % (stats["added"], csv_path))
-    print("   Skipped %d already-present colleges" % stats["skipped"])
+    action = "Wrote" if overwrite else "Added"
+    print("\n[OK] %s %d colleges to %s" % (action, stats["added"], csv_path))
+    if not overwrite:
+        print("   Skipped %d already-present colleges" % stats["skipped"])
     return stats
 
 
@@ -134,10 +147,27 @@ def main() -> int:
         help="Preview changes without writing to CSV",
     )
     parser.add_argument(
+        "--deep",
+        action="store_true",
+        default=False,
+        help="Deep scan: scrape all stream categories and regional districts (discovers 500+ colleges across the state)",
+    )
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=6,
+        help="Number of concurrent workers for resolving college websites (default: 6)",
+    )
+    parser.add_argument(
         "--output",
         type=str,
         default=str(CSV_PATH),
         help="Output CSV path (default: data/seed_colleges.csv)",
+    )
+    parser.add_argument(
+        "--overwrite",
+        action="store_true",
+        help="Overwrite target CSV with scraped colleges instead of appending",
     )
     parser.add_argument(
         "--quiet",
@@ -164,7 +194,7 @@ def main() -> int:
     listing_url = get_state_listing_url(args.state)
 
     print("=" * 60)
-    print("  Shortfundly - CollegeDunia India College Fetcher")
+    print("  Campus Outreach - CollegeDunia India College Fetcher")
     print("=" * 60)
     print("  Target State: %s" % state_display)
     print("  Listing URL:  %s" % listing_url)
@@ -172,19 +202,37 @@ def main() -> int:
         print("  Scraping top %d colleges (use --limit 0 for all)" % limit)
     else:
         print("  Scraping ALL available colleges for this state")
-    print("  Delay: %.1fs between requests" % args.delay)
-    print("  Output: %s" % args.output)
+    if args.deep:
+        print("  Scan Mode:    DEEP SCAN (all streams & districts)")
+    else:
+        print("  Scan Mode:    Standard (primary state listing)")
+    print("  Workers:      %d concurrent threads" % args.workers)
+    print("  Delay:        %.1fs between requests" % args.delay)
+    print("  Output:       %s" % args.output)
     if args.dry_run:
         print("  [DRY RUN] No files will be written")
     print("=" * 60)
 
-    colleges = scrape_colleges(state=args.state, limit=limit, delay=args.delay, verbose=verbose)
+    colleges = scrape_colleges(
+        state=args.state,
+        limit=limit,
+        delay=args.delay,
+        verbose=verbose,
+        deep=args.deep,
+        workers=args.workers,
+    )
 
     if not colleges:
         print("[ERROR] No colleges found for '%s' -- check network or state name" % state_display)
         return 1
 
-    stats = update_seed_csv(colleges, Path(args.output), default_state=state_display, dry_run=args.dry_run)
+    stats = update_seed_csv(
+        colleges,
+        Path(args.output),
+        default_state=state_display,
+        dry_run=args.dry_run,
+        overwrite=args.overwrite,
+    )
 
     print("\nSummary:")
     print("   State: %s" % state_display)

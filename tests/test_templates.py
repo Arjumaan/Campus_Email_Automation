@@ -9,8 +9,8 @@ SENDER = {"sender_name": "Test Person", "sender_title": "Test Title"}
 
 def test_default_subject_and_files_present():
     subject, body = ts.load_default_template()
-    assert subject == "Proposal for Shortfundly Campus Collaboration — {college_name}"
-    assert body.startswith("PROPOSAL FOR SHORTFUNDLY CAMPUS COLLABORATION")
+    assert subject == "Proposal for Campus Outreach Collaboration - {college_name}"
+    assert body.startswith("PROPOSAL FOR CAMPUS OUTREACH COLLABORATION")
 
 
 def test_all_placeholders_render():
@@ -25,13 +25,12 @@ def test_default_proposal_terms_survive_rendering():
     subject, body = ts.load_default_template()
     r = ts.render_email(subject, body, make_contact(1), SENDER)
     assert r.problems == []
-    assert r.subject == "Proposal for Shortfundly Campus Collaboration — FICTIONAL Demo College 1"
+    assert r.subject == "Proposal for Campus Outreach Collaboration - FICTIONAL Demo College 1"
     for must_have in (
-        "₹1,500 + GST per year", "+91 93612 23155", "https://campus.shortfundly.com/",
-        "https://calendly.com/shortfundly-meeting/30min", "Dear Dr. Fictional 1,",
-        "Warm regards,\nTest Person\nTest Title | Shortfundly", "Empowering Student Creators at FICTIONAL Demo College 1",
-        "Connect, Festival, Hub, Marketing, Ticket, and Tools",
-        "Institutional pricing and any additional activity charges will be confirmed through a separate quotation",
+        "+91 93612 23155", "arjumaan21@gmail.com", "Dear Dr. Fictional 1,",
+        "Warm regards,\nTest Person\nTest Title | Campus Outreach", "Empowering Student Excellence at FICTIONAL Demo College 1",
+        "ABOUT CAMPUS OUTREACH INITIATIVE",
+        "PROPOSED AREAS OF COLLABORATION",
     ):
         assert must_have in r.body
     assert "{" not in r.body
@@ -84,7 +83,7 @@ def test_template_save_load_and_persistence(tmp_path):
         ts.delete_template(conn2, ts.DEFAULT_TEMPLATE_NAME)
     ts.save_template(conn2, ts.DEFAULT_TEMPLATE_NAME, "changed", "changed")
     ts.restore_default_template(conn2)
-    assert "₹1,500" in ts.load_template(conn2, ts.DEFAULT_TEMPLATE_NAME)["body"]
+    assert "CAMPUS OUTREACH COLLABORATION" in ts.load_template(conn2, ts.DEFAULT_TEMPLATE_NAME)["body"]
     with pytest.raises(ValueError):
         ts.save_template(conn2, "x", "  ", "body")
     conn2.close()

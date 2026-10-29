@@ -58,16 +58,43 @@ def _logo_html(size_px: int = 56) -> str:
 
 _GLOBAL_CSS = """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
 
 /* ---- Base & Typography ---- */
-html, body, [class*="css"], [class*="st-"], .stMarkdown, .stText {
+html, body, .stApp, .stMarkdown, .stText, [data-testid="stMarkdownContainer"], [data-baseweb="input"] input, div[data-testid="stMetricValue"] {
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   letter-spacing: -0.01em;
 }
 
 code, pre, .stCodeBlock {
   font-family: 'JetBrains Mono', monospace !important;
+}
+
+/* ---- Protect Streamlit Icons & Ligatures ---- */
+[data-testid*="Icon"],
+[data-testid*="icon"],
+[data-testid="stIconMaterial"],
+.material-symbols-rounded,
+.material-symbols-outlined,
+.material-icons,
+[class*="material-symbols"],
+[class*="material-icons"],
+button[aria-label*="password" i] span,
+button[aria-label*="password" i] i,
+span[translate="no"] {
+  font-family: 'Material Symbols Rounded', 'Material Icons' !important;
+  font-weight: normal !important;
+  font-style: normal !important;
+  font-size: 20px !important;
+  line-height: 1 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  display: inline-block !important;
+  white-space: nowrap !important;
+  word-wrap: normal !important;
+  direction: ltr !important;
+  -webkit-font-smoothing: antialiased !important;
+  font-feature-settings: 'liga' 1 !important;
 }
 
 /* ---- Custom Scrollbars ---- */
